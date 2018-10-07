@@ -1,0 +1,4411 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<meta charset="utf-8">
+	<!-- 引入 ECharts 文件 -->
+	<script src="./js/jquery-3.2.1.min.js"></script>
+	<script src="./js/bootstrap.min.js"></script>
+	<link rel="stylesheet" href="./js/bootstrap.min.css" />
+	<style>
+		#scatter div {
+			width: 1000px!important;
+		}
+	</style>
+</head>
+<body>
+
+	<body style="width:1000px;margin:0 auto;">
+		<a href="#title" style="position:fixed;bottom:10px;margin-left:1020px;">返回顶部</a>
+		<div style="text-align:center;line-height:100px;width:100%;font-size:46px;" id="title">“梦之队”统治奥运会？</div>
+		<div style="text-align:left;line-height:25px;width:100%;margin:10px 0;">在奥运赛场上，总有些国家长踞固定项目的榜首，在自己的传统强势项目上持续发光发热。早在1992年巴塞罗那奥运会，囊括了当时几乎所有的NBA顶尖选手的美国男篮表现得如梦如幻，被人们冠以“梦之队”的称号。之后这一说法渐渐流行起来，那些在单项上的地位长期无法为其他国家所撼动的实力无人能比的队伍也开始被称赞为“梦之队”，其中最常见的除了美国篮球，还有中国乒乓球队、中国跳水队和韩国射箭队。</div>
+	  <div style="text-align:left;line-height:25px;width:100%;margin:10px 0;">“梦之队”们凭借着自身的强势，成为各自项目的霸主对该项目进行着不同时间段的“统治”，也就是实现了对一些奥运项目的垄断。然而奥运中的这些垄断现象并不仅仅与体育运动项目本身相关，本文将通过历届奥运会单项和总成绩的数据来对奥运会的被垄断程度以及相关影响因素进行定性和定量分析，从而探究奥运垄断背后的意义。</div>
+
+		<script type="text/javascript" src="./js/echarts-all-3.js"></script>
+		<script type="text/javascript" src="./js/world.js"></script>
+		<script type="text/javascript" src="https://api.map.baidu.com/api?v=2.0&ak=ZUONbpqGBsYGXNIYHicvbAbM"></script>
+		<script type="text/javascript" src="./js/china.js"></script>
+		<script type="text/javascript" src="./js/bmap.min.js"></script>
+		<script type="text/javascript" src="./js/dataTool.min.js"></script>
+		<script src="./js/jquery-1.10.2.js"></script>
+
+		<div id="myTabs">
+
+			<!-- Nav tabs -->
+			<ul class="nav nav-tabs" role="tablist">
+				<li role="presentation" class="active"><a href="#home" aria-controls="home" role="tab" data-toggle="tab">一、“梦之队”的奥运“统治”</a></li>
+				<li role="presentation"><a href="#profile" aria-controls="profile" role="tab" data-toggle="tab">二、奥运被垄断相关因素分析</a></li>
+				<li role="presentation"><a href="#messages" aria-controls="messages" role="tab" data-toggle="tab">三、结论</a></li>
+			</ul>
+
+			<!-- Tab panes -->
+			<div class="tab-content">
+				<div role="tabpanel" class="tab-pane active" id="home" style="padding-bottom: 15px;border-bottom: 2px solid gray;">
+					<div style="text-align:left;line-height:50px;width:100%;font-size:24px;">一、“梦之队”的奥运“统治”</div>
+
+					<div style="text-align:left;line-height:50px;width:100%;font-size:22px;">1、“梦之队”的“统治”程度</div>
+					<div style="text-align:left;line-height:25px;width:100%;margin:10px 0;">量化一个国家对某个项目的“统治”程度，可以从金牌数占比和累计贡献率两种算法考虑。金牌数占比即为某一个国家所获得的总计金牌数量占该项目所产生的所有金牌数的比重，另一方面累计贡献率是基于金银铜牌的不同分量，将该国获得的所有金银铜牌分别赋值4、2、1分，金银铜牌数分别乘以所对应的分值，再相加得出一个国家的总得分，再与该项目所产生奖牌数的总分数做比，即累计贡献率＝（该国所获金牌数＊4＋该国所获银牌数＊2+该国所获铜牌数＊1）／（金牌总数＊4+银牌总数＊2+铜牌总数＊1）。</div>
+
+					<!--pie0-->
+					<div id="pie0" style="width: 100%;height:300px;"></div>
+
+					<script type="text/javascript">
+							// 基于准备好的dom，初始化echarts实例
+							var myChart = echarts.init(document.getElementById('pie0'));
+
+					    option = {
+
+					    series: [
+
+					        {
+					            name: 'table tennis',
+					            type: 'pie',
+					            radius : '35%',
+					            center: ['10%', '30%'],
+					            stack: '总量',
+					            label:{
+					                normal: {
+					                    show: true,
+					                    position: 'insideRight'
+					                }
+					            },
+					            data: [{value:28, name:'中国乒乓球：87.50%'},
+					                {value:3, name:'韩国'},
+					                {value:1, name:'瑞典'},
+					                {value:0, name:'其他'},]
+					        },
+									{
+					            name: 'diving',
+					            type: 'pie',
+					            radius : '35%',
+					            center: ['40%', '70%'],
+					            stack: '总量',
+					            label:{
+					                normal: {
+					                    show: true,
+					                    position: 'insideRight'
+					                }
+					            },
+					            data: [{value:51, name:'美国'},
+					                {value:40, name:'中国跳水：31.50%'},
+					                {value:7, name:'瑞典'},
+					                {value:4, name:'俄罗斯'},
+					                {value:3, name:'德国'},
+					                {value:3, name:'澳大利亚'},
+					                {value:3, name:'意大利'},
+					                {value:16, name:'其他'},]
+					        },
+
+									{
+											name: 'archery',
+											type: 'pie',
+											radius : '35%',
+											center: ['55%', '30%'],
+											stack: '总量',
+											label:{
+													normal: {
+															show: true,
+															position: 'insideRight'
+													}
+											},
+											data: [{value:23, name:'韩国射箭：35.94%'},
+													{value:14, name:'美国'},
+													{value:10, name:'比利时'},
+													{value:6, name:'法国'},
+													{value:11, name:'其他'},]
+									},
+									{
+											name: 'basketball',
+											type: 'pie',
+											radius : '35%',
+											center: ['80%', '70%'],
+											stack: '总量',
+											label:{
+													normal: {
+															show: true,
+															position: 'insideRight'
+													}
+											},
+											data: [{value:23, name:'美国篮球：76.67%'},
+													{value:1, name:'阿根廷'},
+													{value:6, name:'其他：20.00%'}]
+									},
+
+
+					    ]
+					};
+					// 使用刚指定的配置项和数据显示图表。
+					myChart.setOption(option);
+					</script>
+
+					<div style="text-align:center;line-height:25px;width:100%;margin:10px 0;">图1:“梦之队”所获金牌数占总比</div>
+					<div style="text-align:left;line-height:25px;width:100%;margin:10px 0;">用各国所获金牌数进行衡量，如上图所示梦之队的夺金数均占较大比例。其中中国队在乒乓球项目上占比最大，为87.50%。在奥运赛场上国乒已经五次包揽乒乓球项目的金牌，放眼世界乒坛三大赛事，无论是世乒赛、世界杯还是奥运会，中国队包揽金牌已成常态，中国乒乓球“梦之队”的称号当之无愧。
+						中国跳水队虽被称为“梦之队”，但并不是奥运会跳水比赛历史上获金牌奖牌数最多的国家，反而美国所获金牌数占比是第一。中国金牌数占比将近1/3稍落后于美国位列第二，统治力也还是很强。 射箭项目自1900年就登上奥运会舞台，虽然中间消失过半个世纪，但在1972年又重回奥运舞台，所以除了闻名的韩国射箭梦之队，还有不可忽略的金牌数和奖牌数来自美国。在金牌数的占比中，韩国以超过1/3的占比位列第一，约1/5金牌数由美国获得。
+						在奥运会篮球项目上，美国以76.67%的金牌数占比成绩稳坐第一，历届比赛中其他国家除了前苏联曾获得4枚金牌，独联体和阿根廷各获得过一枚之外，其他国家均无奥运会篮球金牌入账，所以美国夺金的次数显示出其对于该项目的垄断优势。
+					</div>
+
+					<!--pie00-->
+					<div id="pie00" style="width: 100%;height:300px;"></div>
+
+					<script type="text/javascript">
+							// 基于准备好的dom，初始化echarts实例
+							var myChart = echarts.init(document.getElementById('pie00'));
+
+					    option = {
+
+					    series: [
+
+								{
+										name: 'table tennis2',
+										type: 'pie',
+										radius : '35%',
+										center: ['12%', '30%'],
+										stack: '总量',
+										label:{
+												normal: {
+														show: true,
+														position: 'insideRight'
+												}
+										},
+										data: [{value:67.54, name:'中国－－累计贡献率：67.54%'},
+												{value:13.16, name:'韩国'},
+												{value:3.07, name:'瑞典'},
+												{value:16.23, name:'其他'},]
+								},
+								{
+										name: 'diving2',
+										type: 'pie',
+										radius : '35%',
+										center: ['40%', '70%'],
+										stack: '总量',
+										label:{
+												normal: {
+														show: true,
+														position: 'insideRight'
+												}
+										},
+										data: [{value:38.30 , name:'美国'},
+												{value:23.29 , name:'中国跳水:23.29% '},
+												{value:6.38 , name:'瑞典'},
+												{value:4.26 , name:'俄罗斯'},
+												{value:4.70 , name:'德国'},
+												{value:3.02 , name:'澳大利亚'},
+												{value:2.80 , name:'意大利'},
+												{value:17.25 , name:'其他'}]
+								},
+
+
+
+												{
+														name: 'archery2',
+														type: 'pie',
+														radius : '35%',
+														center: ['60%', '30%'],
+														stack: '总量',
+														label:{
+																normal: {
+																		show: true,
+																		position: 'insideRight'
+																}
+														},
+														data: [{value:26.53, name:'韩国射箭:26.53%'},
+																{value:19.95, name:'美国'},
+																{value:12.47, name:'比利时'},
+																{value:12.02, name:'法国'},
+																{value:29.02, name:'其他'},]
+												},
+												{
+														name: 'basketball2',
+														type: 'pie',
+														radius : '35%',
+														center: ['80%', '70%'],
+														stack: '总量',
+														label:{
+																normal: {
+																		show: true,
+																		position: 'insideRight'
+																}
+														},
+														data: [{value:47.14, name:'美国篮球:47.14%'},
+																{value:2.38, name:'阿根廷'},
+																{value:50.48, name:'其他'}]
+												},
+					    ]
+					};
+					// 使用刚指定的配置项和数据显示图表。
+					myChart.setOption(option);
+					</script>
+					<div style="text-align:center;line-height:25px;width:100%;margin:10px 0;">图2:“梦之队”对项目贡献率</div>
+					<div style="text-align:left;line-height:25px;width:100%;margin:10px 0;">用累计贡献率进行衡量，如图2，所得结果与金牌数占比类似，同样的梦之队对于所在项目的贡献均较大。由上文提到的累计贡献率的算法可以得出中国对于乒乓球的累计贡献率为67.54%，超过其他所有国家贡献的总和，说明了乒乓球奥运成绩呈现“一边倒”，“一家独大”之明显态势。跳水项目上，中国跳水队以23.29%超过五分之一的贡献率落后于美国排名第二，不过其单项实力还是远超其他国家的。韩国对于射箭项目的累计贡献率为26.53%也是对这个项目贡献最大的国家，在篮球项目中，美国的累计贡献率为47.14%，几乎是一半的贡献率。</div>
+					<div style="text-align:left;line-height:25px;width:100%;margin:10px 0;">由上面两种算法来衡量，可以展现出梦之队对于自己项目的统治程度均很高，尤其中国乒乓球和美国篮球是梦之队个体的绝对统治，跳水和射箭虽也有美国算是强队，但中国跳水队和韩国射箭队依然有很强的实力。</div>
+
+
+					<div style="text-align:left;line-height:50px;width:100%;font-size:22px;">2、“梦之队”的“统治”时间</div>
+					<!--scatter0-->
+					<div id="scatter0" style="width: 100%;height:400px;"></div>
+
+					<script type="text/javascript">
+						// 基于准备好的dom，初始化echarts实例
+						var myChart = echarts.init(document.getElementById('scatter0'));
+
+						// 指定图表的配置项和数据
+						var dataCHN = [
+							[1988, 5, 2, 2, 1],
+							[1992, 6, 3, 2, 1],
+							[1996, 8, 4, 3, 1],
+							[2000, 8, 4, 3, 1],
+							[2004, 6, 3, 1, 2],
+							[2008, 8, 4, 2, 2],
+							[2012, 6, 4, 2, 0],
+							[2016, 6, 4, 2, 0],
+
+						];
+						var dataCHN4 = [
+
+							[1984, 3, 1, 1, 1],
+							[1988, 6, 2, 3, 1],
+							[1992, 5, 3, 1, 1],
+							[1996, 5, 3, 1, 1],
+							[2000, 10, 5, 5, 0],
+							[2004, 9, 6, 2, 1],
+							[2008, 11, 7, 1, 3],
+							[2012, 10, 6, 3, 1],
+							[2016, 10, 7, 2, 1],
+
+						];
+						var dataKOR1 = [
+
+							[1984, 2, 1, 0, 1],
+							[1988, 6, 3, 2, 1],
+							[1992, 4, 2, 2, 0],
+							[1996, 4, 2, 1, 1],
+							[2000, 5, 3, 1, 1],
+							[2004, 4, 3, 1, 0],
+							[2008, 5, 2, 2, 1],
+							[2012, 4, 3, 0, 1],
+							[2016, 5, 4, 0, 1],
+
+						];
+						var dataUSA2 = [
+							[1936, 1, 1, 0, 0],
+							[1948, 1, 1, 0, 0],
+							[1952, 1, 1, 0, 0],
+							[1956, 1, 1, 0, 0],
+							[1960, 1, 1, 0, 0],
+							[1964, 1, 1, 0, 0],
+							[1968, 1, 1, 0, 0],
+							[1972, 1, 0, 1, 0],
+							[1976, 2, 1, 1, 0],
+							[1984, 2, 2, 0, 0],
+							[1988, 2, 1, 0, 1],
+							[1992, 2, 1, 0, 1],
+							[1996, 2, 2, 0, 0],
+							[2000, 2, 2, 0, 0],
+							[2004, 2, 1, 0, 1],
+							[2008, 2, 2, 0, 0],
+							[2012, 2, 2, 0, 0],
+							[2016, 2, 2, 0, 0],
+
+						];
+
+						var schema = [
+							{ name: 'date', index: 0, text: '年' },
+							{ name: 'overall', index: 1, text: '奖牌总数' },
+							{ name: 'gold', index: 2, text: '金牌数' },
+							{ name: 'silver', index: 3, text: '银牌数' },
+							{ name: 'bronze', index: 4, text: '铜牌数' },
+
+						];
+
+
+						var itemStyle = {
+							normal: {
+								opacity: 0.8,
+								shadowBlur: 10,
+								shadowOffsetX: 0,
+								shadowOffsetY: 0,
+								shadowColor: 'rgba(0, 0, 0, 0.5)'
+							}
+						};
+
+						option = {
+							backgroundColor: '#404a59',
+							color: [
+								'#dd4444', '#fec42c', '#80F1BE', '#6699ff'
+							],
+							legend: {
+								y: 'top',
+								data: ['中国乒乓球', '中国跳水', '韩国射箭', '美国篮球'],
+								textStyle: {
+									color: '#fff',
+									fontSize: 16
+								}
+							},
+							grid: {
+								x: '5%',
+								x2: 150,
+								y: '18%',
+								y2: '10%'
+							},
+							tooltip: {
+								padding: 10,
+								backgroundColor: '#222',
+								borderColor: '#777',
+								borderWidth: 1,
+								formatter: function (obj) {
+									var value = obj.value;
+									return '<div style="border-bottom: 1px solid rgba(255,255,255,.3); font-size: 18px;padding-bottom: 7px;margin-bottom: 7px">'
+										+ obj.seriesName + ' ' + value[0] + '年'
+
+										+ '</div>'
+										+ schema[1].text + '：' + value[1] + '<br>'
+										+ schema[2].text + '：' + value[2] + '<br>'
+										+ schema[3].text + '：' + value[3] + '<br>'
+										+ schema[4].text + '：' + value[4] + '<br>';
+								}
+							},
+							xAxis: {
+								type: 'value',
+								name: '年份',
+								nameGap: 16,
+								nameTextStyle: {
+									color: '#fff',
+									fontSize: 14
+								},
+								min: 1930,
+								max: 2016,
+								splitLine: {
+									show: false
+								},
+								axisLine: {
+									lineStyle: {
+										color: '#eee'
+									}
+								}
+							},
+							yAxis: {
+								type: 'value',
+								name: '奖牌数',
+								nameLocation: 'end',
+								nameGap: 20,
+								nameTextStyle: {
+									color: '#fff',
+									fontSize: 16
+								},
+								axisLine: {
+									lineStyle: {
+										color: '#eee'
+									}
+								},
+								splitLine: {
+									show: false
+								}
+							},
+							visualMap: [
+								{
+									left: 'right',
+									top: '10%',
+									dimension: 1,
+									min: 0,
+									max: 11,
+									itemWidth: 30,
+									itemHeight: 100,
+									calculable: true,
+									precision: 0.1,
+									text: ['圆形大小：奖牌总数'],
+									textGap: 20,
+									textStyle: {
+										color: '#fff'
+									},
+									inRange: {
+										symbolSize: [20, 80]
+									},
+									outOfRange: {
+										symbolSize: [20, 80],
+										color: ['rgba(255,255,255,.2)']
+									},
+									controller: {
+										inRange: {
+											color: ['#c23531']
+										},
+										outOfRange: {
+											color: ['#444']
+										}
+									}
+								},
+								{
+									left: 'right',
+									bottom: '5%',
+									dimension: 2,
+									min: 0,
+									max: 5,
+									itemHeight: 100,
+									calculable: true,
+									precision: 0.1,
+									text: ['明暗：金牌数'],
+									textGap: 20,
+									textStyle: {
+										color: '#fff'
+									},
+									inRange: {
+										colorLightness: [1, 0.5]
+									},
+									outOfRange: {
+										color: ['rgba(255,255,255,.2)']
+									},
+									controller: {
+										inRange: {
+											color: ['#c23531']
+										},
+										outOfRange: {
+											color: ['#444']
+										}
+									}
+								}
+							],
+							series: [
+								{
+									name: '中国乒乓球',
+									type: 'scatter',
+									itemStyle: itemStyle,
+									data: dataCHN
+								},
+								{
+									name: '中国跳水',
+									type: 'scatter',
+									itemStyle: itemStyle,
+									data: dataCHN4
+								},
+								{
+									name: '韩国射箭',
+									type: 'scatter',
+									itemStyle: itemStyle,
+									data: dataKOR1
+								},
+								{
+									name: '美国篮球',
+									type: 'scatter',
+									itemStyle: itemStyle,
+									data: dataUSA2
+								}
+
+							]
+						};
+						// 使用刚指定的配置项和数据显示图表。
+						myChart.setOption(option);
+					</script>
+					<div style="text-align:center;line-height:25px;width:100%;margin:10px 0;">图3:“梦之队”历届获奖情况</div>
+					<div style="text-align:left;line-height:25px;width:100%;margin:10px 0;">·中国乒乓球——通过每一届每个国家的每一届具体获奖情况来看，中国对于乒乓球的垄断是在整个时间段里一直存在的，并没有因为时间或届数不同发生改变。自1988年乒乓球第一次作为正式项目出现在汉城奥运会的赛场上，至今在奥运会的赛场上已经连续进行了8届奥运会的乒乓球比赛。除了1988年、1992年和2004年共丢了四块金牌外，中国乒乓球梦之队赢下了该项目其他所有金牌和尽可能多的银牌、铜牌。尽管2010年国际乒联通过了乒乓球奥运瘦身计划，将单打的参赛名额从原有的3人削减至2人，并调整了比赛顺序，先单打后进行团体赛，还是没有改变国乒对于该项目金牌的包揽。</div>
+					<div style="text-align:left;line-height:25px;width:100%;margin:10px 0;">·中国跳水——由中国跳水队每一届的获奖情况可以清晰地看出，中国跳水梦之队之所以成绩占比位列第二，是因为跳水项目是从1896年奥运会伊始就有的项目，然而新中国是从八十年代恢复国际奥委会合法席位之后才正是参加奥运。也就是说美国队参加了从第一届至今的跳水比赛，而中国队从1984年第23届奥运会才开始有跳水比赛成绩。从散点图中可看出，尤其是在2000年之后，中国跳水队每一届均可收获8枚金牌中的6枚或7枚，稳定在这种梦幻的项目优势之上。</div>
+					<div style="text-align:left;line-height:25px;width:100%;margin:10px 0;">·韩国射箭——自1984年洛杉矶奥运会设立女子射箭项目以来，韩国几乎包揽了射箭项目个人和团体的金牌，从1988年至今的八届奥运会，射箭女团金牌更是从未旁落，一直都装在韩国队的囊中。这支“韩国梦之队”成为了当之无愧的射箭霸主。</div>
+					<div style="text-align:left;line-height:25px;width:100%;margin:10px 0;">·美国篮球——自1992年巴塞罗那的第25届奥运会上夺得金牌的美国男篮的第一次被人们称为“梦之队”之后，历届由NBA职业球员为骨干所组成的参加男篮世锦赛或夏季奥运会的美国男篮，依成军时间先后顺序分别被冠以梦二队、梦三队……之称。在1996年亚特兰大奥运会和2000年悉尼奥运会上，梦三队和梦四队也都拿到了奥运金牌。但在2004年的奥运会半决赛“梦六队”输给阿根廷，这也是美国男篮在被冠以梦之队称号后第一次也是唯一一次失掉奥运会金牌。自2008年以来“梦八队”、“梦十队”、“梦十二队”已经在奥运会赛场24战24捷，连续第三届奥运会完成卫冕。同时美国女篮也在2016年的里约夺得金牌，成就奥运会六连冠的伟业。</div>
+					<div style="text-align:left;line-height:25px;width:100%;margin:10px 0;">总的来说，“梦之队”们对于单项有很强的统治力，其中既有从数据上看在整个时间段中垄断程度极高的项目，比如中国队的乒乓球和美国队的篮球，又有分段垄断的情况出现，就像1988年之后的韩国女子射箭、2000年之后的中国跳水。</div>
+
+					<div style="text-align:left;line-height:50px;width:100%;font-size:22px;">3、“梦之队”所在项目的国家间差距</div>
+					<div style="width:100%;">
+
+					<!--line graph-->
+					<div id="line3" style="height:300px;width:25%;float:left;"></div>
+					<div id="line4" style="height:300px;width:25%;float:left;"></div>
+					<div id="line6" style="height:300px;width:25%;float:right;"></div>
+					<div id="line5" style="height:300px;width:25%;float:right;"></div>
+
+
+						<div>.</div>
+					</div>
+
+					<script type="text/javascript">
+						// 基于准备好的dom，初始化echarts实例
+						var myChart = echarts.init(document.getElementById('line3'));
+
+						// 指定图表的配置项和数据
+						option = {
+						    title: {
+						        text: '乒乓球GINI＝0.7356',
+										left: 'center',
+										top: '10%'
+
+						    },
+						    tooltip: {
+						        trigger: 'axis'
+						    },
+						    legend: {
+						        data:['bins','results'],
+										x: 'left'
+						    },
+						    grid: {
+						        left: '3%',
+						        right: '4%',
+						        bottom: '3%',
+						        containLabel: true
+						    },
+						    toolbox: {
+						                    show : true,
+						                    feature : {
+						                    }
+						                },
+						                calculable: true,
+						    xAxis: {
+						        type: 'category',
+										name: '',
+										nameLocation: 'end',
+					          nameGap:1,
+					          nameTextStyle: {
+					              color: '#000000',
+					              fontSize: 12
+					          },
+						        boundaryGap: false,
+						        data: ['0','10','20','30','40','50','60','70','80','90','100']
+						    },
+						    yAxis: {
+						        type: 'value',
+										name: '',
+										nameLocation: 'end',
+					          nameGap:20,
+					          nameTextStyle: {
+					              color: '#000000',
+					              fontSize: 12
+					          },
+
+						    },
+						    series: [
+						        {
+						            name:'bins',
+						            type:'line',
+						            data:[ 0,   10,   20,   30,   40,   50,   60,   70,   80,
+						         90,  100]
+						        },
+						        {
+						            name:'results',
+						            type:'line',
+						            data:[0.5319148936170213,
+	 1.3297872340425532,
+	 4.521276595744681,
+	 4.521276595744681,
+	 4.521276595744681,
+	 9.308510638297872,
+	 9.308510638297872,
+	 11.170212765957446,
+	 15.425531914893616,
+	 21.808510638297875,
+	 100.0]
+						        }
+						    ]
+						};
+					// 使用刚指定的配置项和数据显示图表。
+					myChart.setOption(option);
+				</script>
+
+					<script type="text/javascript">
+						// 基于准备好的dom，初始化echarts实例
+						var myChart = echarts.init(document.getElementById('line4'));
+
+						// 指定图表的配置项和数据
+						option = {
+								title: {
+										text: '跳水GINI＝0.7356',
+										left: 'center',
+										top: '10%'
+
+								},
+								tooltip: {
+										trigger: 'axis'
+								},
+								legend: {
+										data:['bins','results'],
+										x: 'left'
+								},
+								grid: {
+										left: '3%',
+										right: '4%',
+										bottom: '3%',
+										containLabel: true
+								},
+								toolbox: {
+																show : true,
+																feature : {
+																}
+														},
+														calculable: true,
+								xAxis: {
+										type: 'category',
+										name: '',
+										nameLocation: 'end',
+										nameGap:1,
+										nameTextStyle: {
+												color: '#000000',
+												fontSize: 12
+										},
+										boundaryGap: false,
+										data: ['0','10','20','30','40','50','60','70','80','90','100']
+								},
+								yAxis: {
+										type: 'value',
+										name: '',
+										nameLocation: 'end',
+										nameGap:20,
+										nameTextStyle: {
+												color: '#000000',
+												fontSize: 12
+										},
+
+								},
+								series: [
+										{
+												name:'bins',
+												type:'line',
+												data:[ 0,   10,   20,   30,   40,   50,   60,   70,   80,
+										 90,  100]
+										},
+										{
+												name:'results',
+												type:'line',
+												data:[0.10964912280701754,
+		 0.6578947368421052,
+		 2.1929824561403506,
+		 2.850877192982456,
+		 4.934210526315789,
+		 8.114035087719298,
+		 13.048245614035087,
+		 19.298245614035086,
+		 27.083333333333332,
+		 38.70614035087719,
+		 100.0]
+										}
+								]
+						};
+						// 使用刚指定的配置项和数据显示图表。
+						myChart.setOption(option);
+					</script>
+
+					<script type="text/javascript">
+													// 基于准备好的dom，初始化echarts实例
+													var myChart = echarts.init(document.getElementById('line5'));
+
+													// 指定图表的配置项和数据
+												option = {
+														title: {
+																text: '射箭GINI＝0.7356',
+																left: 'center',
+																top: '10%'
+
+														},
+														tooltip: {
+																trigger: 'axis'
+														},
+														legend: {
+																data:['bins','results'],
+																x: 'left'
+														},
+														grid: {
+																left: '3%',
+																right: '4%',
+																bottom: '3%',
+																containLabel: true
+														},
+														toolbox: {
+																						show : true,
+																						feature : {
+																						}
+																				},
+																				calculable: true,
+														xAxis: {
+																type: 'category',
+																name: '',
+																nameLocation: 'end',
+																nameGap:1,
+																nameTextStyle: {
+																		color: '#000000',
+																		fontSize: 12
+																},
+																boundaryGap: false,
+																data: ['0','10','20','30','40','50','60','70','80','90','100']
+														},
+														yAxis: {
+																type: 'value',
+																name: '',
+																nameLocation: 'end',
+																nameGap:20,
+																nameTextStyle: {
+																		color: '#000000',
+																		fontSize: 12
+																},
+
+														},
+														series: [
+																{
+																		name:'bins',
+																		type:'line',
+																		data:[ 0,   10,   20,   30,   40,   50,   60,   70,   80,
+																 90,  100]
+																},
+																{
+																		name:'results',
+																		type:'line',
+																		data:[0.3456221198156682,
+					 1.2672811059907834,
+					 2.5345622119815667,
+					 4.262672811059908,
+					 6.682027649769585,
+					 10.829493087557603,
+					 12.327188940092165,
+					 16.359447004608295,
+					 23.963133640552993,
+					 38.47926267281106,
+					 100.0]
+																}
+														]
+												};
+												// 使用刚指定的配置项和数据显示图表。
+												myChart.setOption(option);
+											</script>
+
+															<script type="text/javascript">
+																// 基于准备好的dom，初始化echarts实例
+																var myChart = echarts.init(document.getElementById('line6'));
+
+																// 指定图表的配置项和数据
+															option = {
+																	title: {
+																			text: '篮球GINI＝0.7356',
+																			left: 'center',
+																			top: '10%'
+
+																	},
+																	tooltip: {
+																			trigger: 'axis'
+																	},
+																	legend: {
+																			data:['bins','results'],
+																			x: 'left'
+																	},
+																	grid: {
+																			left: '3%',
+																			right: '4%',
+																			bottom: '3%',
+																			containLabel: true
+																	},
+																	toolbox: {
+																									show : true,
+																									feature : {
+																									}
+																							},
+																							calculable: true,
+																	xAxis: {
+																			type: 'category',
+																			name: '',
+																			nameLocation: 'end',
+																			nameGap:1,
+																			nameTextStyle: {
+																					color: '#000000',
+																					fontSize: 12
+																			},
+																			boundaryGap: false,
+																			data: ['0','10','20','30','40','50','60','70','80','90','100']
+																	},
+																	yAxis: {
+																			type: 'value',
+																			name: '',
+																			nameLocation: 'end',
+																			nameGap:20,
+																			nameTextStyle: {
+																					color: '#000000',
+																					fontSize: 12
+																			},
+
+																	},
+																	series: [
+																			{
+																					name:'bins',
+																					type:'line',
+																					data:[ 0,   10,   20,   30,   40,   50,   60,   70,   80,
+																			 90,  100]
+																			},
+																			{
+																					name:'results',
+																					type:'line',
+																					data:[0.4327301337529505,
+					 1.6129032258064515,
+					 4.445318646734854,
+					 5.822187254130606,
+					 11.48701809598741,
+					 11.48701809598741,
+					 15.184893784421716,
+					 20.377655389457118,
+					 27.143981117230524,
+					 38.94571203776554,
+					 100.0]
+																			}
+																	]
+															};
+															// 使用刚指定的配置项和数据显示图表。
+															myChart.setOption(option);
+														</script>
+
+					<div style="text-align:center;line-height:25px;width:100%;margin:10px 0;">图4:乒乓球、跳水、射箭、篮球项目获奖基尼系数</div>
+					<div style="text-align:left;line-height:25px;width:100%;margin:10px 0;">基尼系数是判断收入分配公平程度的指标。基尼系数是比例数值，在0和1之间，是国际上用来综合考察居民内部收入分配差异状况的一个重要分析指标。基尼系数，按照联合国有关组织规定：低于0.2为收入绝对平均；0.2-0.3为收入比较平均；0.3-0.4为收入相对合理；0.4-0.5为收入差距较大；0.5以上为收入差距悬殊。此处用基尼系数来类比衡量奥运项目的获奖国家间的差距，从而判断垄断程度。</div>
+					<div style="text-align:left;line-height:25px;width:100%;margin:10px 0;">以“梦之队”所在项目乒乓球、跳水、射箭和篮球为研究对象，基于金银铜牌价值不同，延用前文累计贡献率算法中对于金银铜牌分别4、2、1分的赋值，对赋值后的各国得分差异进行分析。以国家各自总得分可分别计算出各项目的基尼系数，如图3所示，这四项的基尼系数均超过0.6，甚至乒乓球的基尼系数高达0.7356。依据基尼系数评判的分段标准，不同国家在这四个单项上的奥运成绩差距悬殊，由此可以推导出梦之队们对于自己的项目垄断程度高。</div>
+
+
+					<div style="text-align:left;line-height:50px;width:100%;font-size:22px;">4、其他单项国家间差距</div>
+
+					<!--bar chart-->
+					<div id="bar" style="width: 100%;height:300px;"></div>
+
+					<script type="text/javascript">
+						// 基于准备好的dom，初始化echarts实例
+						var myChart = echarts.init(document.getElementById('bar'));
+
+						// 指定图表的配置项和数据
+
+						option = {
+							color: ['#3398DB'],
+							tooltip: {
+								trigger: 'axis',
+								axisPointer: {            // 坐标轴指示器，坐标轴触发有效
+									type: 'shadow'        // 默认为直线，可选为：'line' | 'shadow'
+								}
+							},
+							grid: {
+								left: '3%',
+								right: '4%',
+								bottom: '3%',
+								containLabel: true
+							},
+							xAxis: [
+								{
+									type: 'category',
+									data: ['swimming', 'athletics',
+										'cycling road',
+										'cycling track',
+										'fencing',
+										'artistic g',
+										'shooting',
+										'tennis',
+										'weightlifting',
+										'wrestling gre-r',
+										'water polo',
+										'archery',
+										'jumping',
+										'football',
+										'rowing',
+										'sailing',
+										'diving',
+										'boxing',
+										'wrestling free',
+										'hockey',
+										'dressage',
+										'eventing',
+										'modern pentath.',
+										'basketball',
+										'canoe / kayak f',
+										'handball',
+										'judo',
+										'volleyball',
+										'canoe / kayak s',
+										'rhythmic g',
+										'table tennis',
+										'badminton',
+										'mountain bike',
+										'taekwondo',
+										'triathlon',
+										'canoe sprint',
+										'gymnastics artistic'],
+									axisTick: {
+										alignWithLabel: true
+									}
+								}
+							],
+							yAxis: [
+								{
+									type: 'value'
+								}
+							],
+							series: [
+								{
+									name: 'gini系数',
+									type: 'bar',
+									barWidth: '50%',
+									data: [0.7798, 0.7634, 0.7356, 0.7309, 0.6978, 0.6782, 0.6687, 0.6680, 0.6662, 0.6661, 0.6637, 0.6527, 0.6392, 0.6266, 0.6219, 0.6052, 0.6032, 0.6027, 0.5825, 0.5820, 0.5792, 0.5751, 0.5574, 0.5485, 0.5383, 0.5293, 0.5162, 0.5108, 0.4976, 0.4851, 0.4766, 0.4640, 0.4487, 0.4482, 0.4017, 0.3900, 0.3743]
+								}
+							]
+						};
+
+						// 使用刚指定的配置项和数据显示图表。
+						myChart.setOption(option);
+					</script>
+
+					<div style="text-align:center;line-height:25px;width:100%;margin:10px 0;">图5:其他单项获奖基尼系数</div>
+					<div style="text-align:left;line-height:25px;width:100%;margin:10px 0;">前面推论出梦之队所在项目的被垄断程度很高，其他项目也可以同样用基尼系数这一指标来衡量单项上的国家成绩的差距。首先将获奖国家数超过10的项目筛选出，再以每个国家在该项目上获奖情况总得分（金银铜牌数4、2、1分赋值）为各国家指标，这些项目的基尼系数大多很高。从图4可直观地看出，大部分项目的基尼系数落在大于0.5的区间里。如图所示，一共展现了36个单项的情况，其中基尼系数大于0.5有足足28项，即大约78%的项目都存在国家间差距悬殊的现象。另外在差距较大的区间（0.4—0.5）里有6项，还有2项落在0.35-0.4的区间里为差距相对合理。由此处分析可以看出绝大多数奥运单项的获奖国家间实力差距悬殊，单个项目被垄断的程度很高。</div>
+
+					<div style="text-align:left;line-height:50px;width:100%;font-size:22px;">5、奥运成绩（总得分）国家间差距</div>
+					<div style="text-align:left;line-height:35px;width:100%;font-size:18px;">1）历届累计获奖情况</div>
+					<!--doughnut chart-->
+					<div id="pie1" style="width: 100%;height:300px;"></div>
+
+					<script type="text/javascript">
+						// 基于准备好的dom，初始化echarts实例
+						var myChart = echarts.init(document.getElementById('pie1'));
+
+						// 指定图表的配置项和数据
+						option = {
+							tooltip: {
+								trigger: 'item',
+								formatter: "{a} <br/>{b}: {c} ({d}%)"
+							},
+							legend: {
+								orient: 'vertical',
+								x: 'left',
+								data: ['美国', '俄罗斯', '德国', '英国', '中国', '法国', '意大利', '匈牙利', '瑞典', '澳大利亚', '其他']
+							},
+							series: [
+								{
+									name: '金牌数(占比)',
+									type: 'pie',
+									radius: ['35%', '55%'],
+									center: ['20%', '60%'],
+									avoidLabelOverlap: false,
+									label: {
+										normal: {
+											show: false,
+											position: 'center'
+										},
+										emphasis: {
+											show: true,
+											textStyle: {
+												fontSize: '30',
+												fontWeight: 'bold'
+											}
+										}
+									},
+									labelLine: {
+										normal: {
+											show: false
+										}
+									},
+									data: [
+										{ value: 1022, name: '美国' },
+										{ value: 591, name: '俄罗斯' },
+										{ value: 428, name: '德国' },
+										{ value: 263, name: '英国' },
+										{ value: 227, name: '中国' },
+										{ value: 212, name: '法国' },
+										{ value: 206, name: '意大利' },
+										{ value: 175, name: '匈牙利' },
+										{ value: 147, name: '瑞典' },
+										{ value: 147, name: '澳大利亚' },
+										{ value: 1386, name: '其他' },]
+								},
+								{
+									name: '银牌数(占比)',
+									type: 'pie',
+									radius: ['20%', '35%'],
+									center: ['43%', '60%'],
+									avoidLabelOverlap: false,
+									label: {
+										normal: {
+											show: false,
+											position: 'center'
+										},
+										emphasis: {
+											show: true,
+											textStyle: {
+												fontSize: '20',
+												fontWeight: 'bold'
+											}
+										}
+									},
+									labelLine: {
+										normal: {
+											show: false
+										}
+									},
+									data: [
+										{ value: 794, name: '美国' },
+										{ value: 500, name: '俄罗斯' },
+										{ value: 442, name: '德国' },
+										{ value: 295, name: '英国' },
+										{ value: 162, name: '中国' },
+										{ value: 241, name: '法国' },
+										{ value: 178, name: '意大利' },
+										{ value: 147, name: '匈牙利' },
+										{ value: 170, name: '瑞典' },
+										{ value: 163, name: '澳大利亚' },
+										{ value: 1684, name: '其他' },]
+								},
+								{
+									name: '铜牌数(占比)',
+									type: 'pie',
+									radius: ['20%', '35%'],
+									center: ['63%', '60%'],
+									avoidLabelOverlap: false,
+									label: {
+										normal: {
+											show: false,
+											position: 'center'
+										},
+										emphasis: {
+											show: true,
+											textStyle: {
+												fontSize: '20',
+												fontWeight: 'bold'
+											}
+										}
+									},
+									labelLine: {
+										normal: {
+											show: false
+										}
+									},
+									data: [
+										{ value: 704, name: '美国' },
+										{ value: 490, name: '俄罗斯' },
+										{ value: 476, name: '德国' },
+										{ value: 289, name: '英国' },
+										{ value: 155, name: '中国' },
+										{ value: 260, name: '法国' },
+										{ value: 193, name: '意大利' },
+										{ value: 169, name: '匈牙利' },
+										{ value: 179, name: '瑞典' },
+										{ value: 187, name: '澳大利亚' },
+										{ value: 2020, name: '其他' },]
+								},
+
+								{
+									name: ' 贡献率',
+									type: 'pie',
+									radius: ['35%', '55%'],
+									center: ['86%', '60%'],
+									avoidLabelOverlap: false,
+									label: {
+										normal: {
+											show: false,
+											position: 'center'
+										},
+										emphasis: {
+											show: true,
+											textStyle: {
+												fontSize: '30',
+												fontWeight: 'bold'
+											}
+										}
+									},
+									labelLine: {
+										normal: {
+											show: false
+										}
+									},
+									data: [
+										{ value: 6380, name: '美国' },
+										{ value: 3854, name: '俄罗斯' },
+										{ value: 3072, name: '德国' },
+										{ value: 1931, name: '英国' },
+										{ value: 1387, name: '中国' },
+										{ value: 1590, name: '法国' },
+										{ value: 1373, name: '意大利' },
+										{ value: 1163, name: '匈牙利' },
+										{ value: 1107, name: '瑞典' },
+										{ value: 1101, name: '澳大利亚' },
+										{ value: 10932, name: '其他' },]
+								},
+							]
+						};
+						// 使用刚指定的配置项和数据显示图表。
+						myChart.setOption(option);
+					</script>
+					<div style="text-align:center;line-height:25px;width:100%;margin:10px 0;">图6:十大奥运强国历届金银铜奖牌总数占比及该国贡献率</div>
+
+					<div style="text-align:left;line-height:25px;width:100%;margin:10px 0;">美国在所有届奥运会中以金牌总数1022枚占比21.27%，将31届奥运会所产生的超过1/5金牌收入囊中，成为奥运会历史上最大赢家。其后的俄罗斯以约莫其一半的金牌数591枚占比12.3%，德国紧随其后以428枚金牌占比8.91%，可见美俄德的确是在整个奥运历史周期里占据着第一集团的三个国家。第二集团的七个国家所获金牌数均落在［140，265］的数量区间里，占比从3%～5.5%之间不等。美俄作为金牌和奖牌大户，虽说银牌和铜牌总数也同样占据着前两位，本国的金银铜三项各自的总数却呈递减关系。其他国家的银牌铜牌数与其金牌数偏差较小。</div>
+					<div style="text-align:left;line-height:25px;width:100%;margin:10px 0;">如上图第四个环形所示，美国是对奥运奖牌贡献率最大的国家，以金银铜牌分别赋值4、2、1分来算，美国得分6380，贡献率为18.83%。值得一提的是，十个国家中基本每个国家的贡献率的多少都与金牌数占比的排名一致，然而中国和法国是例外。在金牌数上，中国的227枚多于法国的212枚，但就贡献率而言法国4.69%的占比却是略胜中国的4.09%一筹。</div>
+					<div style="text-align:left;line-height:25px;width:100%;margin:10px 0;">由各国累计奖牌数量占比和贡献率来看，实力处于第一集团的美俄德三国与其他国家的获奖情况拉开了很大差距，也在奥运总成绩上占据垄断地位。</div>
+					<div style="text-align:left;line-height:25px;width:100%;margin:10px 0;">目前关于奥运强国划分方法主要有两种，一种是根据金牌榜为此进行划分，另一种是对奖牌或是前八名成绩分别进行赋值，然后采用巴雷托截集法进行划分。习惯上人们称美、俄、德为第一集团，而把奥运强国中其他国家称为第二集团。自1986年第一届至今，一共有28次夏季奥林匹克盛会。合计所以届的数据，依据金银铜奖牌数的获得情况，以总金牌数榜单前十位的国家作为本次研究当中的十大奥运强国，分别是美国、俄罗斯、德国、英国、中国、法国、意大利、匈牙利、瑞典和澳大利亚。（其中因为政治因素，俄罗斯在1992年以独联体的名义参赛，1992～1991年期间为苏联，同时德国在1949～1990年期间分裂为民主德国和联邦德国。）</div>
+
+					<!--bar1 奥运强国历年成绩对比统计-->
+					<div id="myChart" style="width: 100%;height:400px;"></div>
+
+					<script type="text/javascript">
+						// 基于准备好的dom，初始化echarts实例
+						var myChart = echarts.init(document.getElementById('myChart'));
+
+						// 指定图表的配置项和数据
+
+						/**
+						* 图表控制器
+						*/
+						var Chart = {
+							//图表数据
+							data: [
+								{
+									country: "美国",//国家名称
+									//奖牌统计
+									medal: [
+										{
+											year: 2016,//年份
+											value: [46, 37, 38, 121] //金银铜合计数量
+										},
+										{
+											year: 2012,
+											value: [46, 29, 29, 104]
+										},
+										{
+											year: 2008,
+											value: [36, 38, 36, 110]
+										},
+										{
+											year: 2004,
+											value: [35, 39, 29, 103]
+										},
+										{
+											year: 2000,
+											value: [39, 25, 33, 97]
+										},
+										{
+											year: 1996,
+											value: [44, 32, 25, 101]
+										},
+										{
+											year: 1992,
+											value: [37, 34, 37, 108]
+										},
+										{
+											year: 1988,
+											value: [36, 31, 27, 94]
+										},
+										{
+											year: 1984,
+											value: [83, 61, 30, 174]
+										},
+										{
+											year: 1980,
+											value: [0, 0, 0, 0]
+										},
+										{
+											year: 1976,
+											value: [34, 35, 25, 94]
+										},
+										{
+											year: 1972,
+											value: [33, 31, 30, 94]
+										},
+										{
+											year: 1968,
+											value: [45, 28, 34, 107]
+										},
+										{
+											year: 1964,
+											value: [36, 26, 28, 90]
+										},
+										{
+											year: 1960,
+											value: [34, 21, 16, 71]
+										},
+										{
+											year: 1956,
+											value: [32, 25, 17, 74]
+										},
+										{
+											year: 1952,
+											value: [40, 19, 17, 76]
+										},
+										{
+											year: 1948,
+											value: [38, 27, 19, 84]
+										},
+										{
+											year: 1936,
+											value: [24, 20, 12, 56]
+										},
+										{
+											year: 1932,
+											value: [41, 32, 30, 103]
+										},
+										{
+											year: 1928,
+											value: [22, 18, 16, 56]
+										},
+										{
+											year: 1924,
+											value: [45, 27, 27, 99]
+										},
+										{
+											year: 1920,
+											value: [41, 27, 27, 95]
+										},
+										{
+											year: 1912,
+											value: [25, 18, 20, 63]
+										},
+										{
+											year: 1908,
+											value: [23, 12, 12, 47]
+										},
+										{
+											year: 1904,
+											value: [77, 81, 78, 236]
+										},
+										{
+											year: 1900,
+											value: [20, 14, 14, 49]
+										},
+										{
+											year: 1896,
+											value: [11, 7, 2, 20]
+										}
+									]
+								},
+								{
+									country: "俄罗斯",//国家名称
+									//奖牌统计
+									medal: [
+										{
+											year: 2016,//年份
+											value: [19, 18, 19, 56] //金银铜合计数量
+										},
+										{
+											year: 2012,
+											value: [24, 25, 33, 82]
+										},
+										{
+											year: 2008,
+											value: [23, 21, 28, 72]
+										},
+										{
+											year: 2004,
+											value: [27, 27, 38, 92]
+										},
+										{
+											year: 2000,
+											value: [32, 28, 28, 88]
+										},
+										{
+											year: 1996,
+											value: [26, 21, 16, 63]
+										},
+										{
+											year: 1992,
+											value: [45, 38, 29, 112]
+										},
+										{
+											year: 1988,
+											value: [55, 31, 46, 132]
+										},
+										{
+											year: 1984,
+											value: [0, 0, 0, 0]
+										},
+										{
+											year: 1980,
+											value: [80, 69, 46, 195]
+										},
+										{
+											year: 1976,
+											value: [49, 41, 35, 125]
+										},
+										{
+											year: 1972,
+											value: [50, 27, 22, 99]
+										},
+										{
+											year: 1968,
+											value: [29, 32, 30, 91]
+										},
+										{
+											year: 1964,
+											value: [30, 31, 35, 96]
+										},
+										{
+											year: 1960,
+											value: [43, 29, 31, 103]
+										},
+										{
+											year: 1956,
+											value: [37, 29, 32, 98]
+										},
+										{
+											year: 1952,
+											value: [22, 30, 19, 71]
+										},
+										{
+											year: 1948,
+											value: [0, 0, 0, 0]
+										},
+										{
+											year: 1936,
+											value: [0, 0, 0, 0]
+										},
+										{
+											year: 1932,
+											value: [0, 0, 0, 0]
+										},
+										{
+											year: 1928,
+											value: [0, 0, 0, 0]
+										},
+										{
+											year: 1924,
+											value: [0, 0, 0, 0]
+										},
+										{
+											year: 1920,
+											value: [0, 0, 0, 0]
+										},
+										{
+											year: 1912,
+											value: [0, 2, 3, 5]
+										},
+										{
+											year: 1908,
+											value: [1, 2, 0, 3]
+										},
+										{
+											year: 1904,
+											value: [0, 0, 0, 0]
+										},
+										{
+											year: 1900,
+											value: [0, 0, 0, 0]
+										},
+										{
+											year: 1896,
+											value: [0, 0, 0, 0]
+										}
+									]
+								},
+								{
+									country: "德国",//国家名称
+									//奖牌统计
+									medal: [
+										{
+											year: 2016,//年份
+											value: [17, 10, 15, 42] //金银铜合计数量
+										},
+										{
+											year: 2012,
+											value: [11, 19, 14, 44]
+										},
+										{
+											year: 2008,
+											value: [16, 10, 15, 41]
+										},
+										{
+											year: 2004,
+											value: [14, 16, 18, 48]
+										},
+										{
+											year: 2000,
+											value: [14, 17, 26, 57]
+										},
+										{
+											year: 1996,
+											value: [20, 18, 27, 65]
+										},
+										{
+											year: 1992,
+											value: [33, 21, 28, 82]
+										},
+										{
+											year: 1988,
+											value: [48, 49, 45, 142]
+										},
+										{
+											year: 1984,
+											value: [17, 19, 23, 59]
+										},
+										{
+											year: 1980,
+											value: [47, 37, 42, 126]
+										},
+										{
+											year: 1976,
+											value: [50, 37, 42, 129]
+										},
+										{
+											year: 1972,
+											value: [33, 34, 39, 106]
+										},
+										{
+											year: 1968,
+											value: [14, 20, 17, 51]
+										},
+										{
+											year: 1964,
+											value: [10, 22, 8, 40]
+										},
+										{
+											year: 1960,
+											value: [12, 19, 11, 42]
+										},
+										{
+											year: 1956,
+											value: [7, 13, 7, 27]
+										},
+										{
+											year: 1952,
+											value: [0, 0, 0, 0]
+										},
+										{
+											year: 1948,
+											value: [0, 0, 0, 0]
+										},
+										{
+											year: 1936,
+											value: [33, 26, 30, 89]
+										},
+										{
+											year: 1932,
+											value: [3, 12, 5, 20]
+										},
+										{
+											year: 1928,
+											value: [10, 7, 14, 31]
+										},
+										{
+											year: 1924,
+											value: [0, 0, 0, 0]
+										},
+										{
+											year: 1920,
+											value: [0, 0, 0, 0]
+										},
+										{
+											year: 1912,
+											value: [5, 13, 7, 25]
+										},
+										{
+											year: 1908,
+											value: [3, 5, 5, 13]
+										},
+										{
+											year: 1904,
+											value: [4, 4, 5, 13]
+										},
+										{
+											year: 1900,
+											value: [4, 2, 2, 8]
+										},
+										{
+											year: 1896,
+											value: [6, 5, 2, 13]
+										}
+									]
+								},
+								{
+									country: "英国",//国家名称
+									//奖牌统计
+									medal: [
+										{
+											year: 2016,//年份
+											value: [27, 17, 17, 61] //金银铜合计数量
+										},
+										{
+											year: 2012,
+											value: [29, 17, 19, 65]
+										},
+										{
+											year: 2008,
+											value: [19, 13, 15, 47]
+										},
+										{
+											year: 2004,
+											value: [9, 9, 12, 30]
+										},
+										{
+											year: 2000,
+											value: [11, 10, 7, 28]
+										},
+										{
+											year: 1996,
+											value: [1, 8, 6, 15]
+										},
+										{
+											year: 1992,
+											value: [5, 3, 12, 20]
+										},
+										{
+											year: 1988,
+											value: [5, 10, 9, 24]
+										},
+										{
+											year: 1984,
+											value: [5, 10, 22, 37]
+										},
+										{
+											year: 1980,
+											value: [5, 7, 9, 21]
+										},
+										{
+											year: 1976,
+											value: [3, 5, 5, 13]
+										},
+										{
+											year: 1972,
+											value: [4, 5, 9, 18]
+										},
+										{
+											year: 1968,
+											value: [5, 5, 3, 13]
+										},
+										{
+											year: 1964,
+											value: [4, 12, 2, 18]
+										},
+										{
+											year: 1960,
+											value: [2, 6, 12, 20]
+										},
+										{
+											year: 1956,
+											value: [6, 7, 11, 24]
+										},
+										{
+											year: 1952,
+											value: [1, 2, 8, 11]
+										},
+										{
+											year: 1948,
+											value: [3, 14, 6, 23]
+										},
+										{
+											year: 1936,
+											value: [4, 7, 3, 14]
+										},
+										{
+											year: 1932,
+											value: [4, 7, 5, 16]
+										},
+										{
+											year: 1928,
+											value: [3, 10, 7, 20]
+										},
+										{
+											year: 1924,
+											value: [9, 13, 12, 34]
+										},
+										{
+											year: 1920,
+											value: [14, 15, 13, 42]
+										},
+										{
+											year: 1912,
+											value: [10, 15, 16, 41]
+										},
+										{
+											year: 1908,
+											value: [56, 51, 39, 146]
+										},
+										{
+											year: 1904,
+											value: [1, 1, 0, 2]
+										},
+										{
+											year: 1900,
+											value: [15, 6, 9, 30]
+										},
+										{
+											year: 1896,
+											value: [2, 3, 2, 7]
+										}
+									]
+								},
+								{
+									country: "中国",//国家名称
+									//奖牌统计
+									medal: [
+										{
+											year: 2016,//年份
+											value: [26, 18, 26, 70] //金银铜合计数量
+										},
+										{
+											year: 2012,
+											value: [38, 27, 22, 87]
+										},
+										{
+											year: 2008,
+											value: [51, 21, 28, 100]
+										},
+										{
+											year: 2004,
+											value: [32, 17, 14, 63]
+										},
+										{
+											year: 2000,
+											value: [28, 16, 15, 59]
+										},
+										{
+											year: 1996,
+											value: [16, 22, 12, 50]
+										},
+										{
+											year: 1992,
+											value: [16, 22, 16, 54]
+										},
+										{
+											year: 1988,
+											value: [5, 11, 12, 28]
+										},
+										{
+											year: 1984,
+											value: [15, 8, 9, 32]
+										},
+										{
+											year: 1980,
+											value: [0, 0, 0, 0]
+										},
+										{
+											year: 1976,
+											value: [0, 0, 0, 0]
+										},
+										{
+											year: 1972,
+											value: [0, 0, 0, 0]
+										},
+										{
+											year: 1968,
+											value: [0, 0, 0, 0]
+										},
+										{
+											year: 1964,
+											value: [0, 0, 0, 0]
+										},
+										{
+											year: 1960,
+											value: [0, 0, 0, 0]
+										},
+										{
+											year: 1956,
+											value: [0, 0, 0, 0]
+										},
+										{
+											year: 1952,
+											value: [0, 0, 0, 0]
+										},
+										{
+											year: 1948,
+											value: [0, 0, 0, 0]
+										},
+										{
+											year: 1936,
+											value: [0, 0, 0, 0]
+										},
+										{
+											year: 1932,
+											value: [0, 0, 0, 0]
+										},
+										{
+											year: 1928,
+											value: [0, 0, 0, 0]
+										},
+										{
+											year: 1924,
+											value: [0, 0, 0, 0]
+										},
+										{
+											year: 1920,
+											value: [0, 0, 0, 0]
+										},
+										{
+											year: 1912,
+											value: [0, 0, 0, 0]
+										},
+										{
+											year: 1908,
+											value: [0, 0, 0, 0]
+										},
+										{
+											year: 1904,
+											value: [0, 0, 0, 0]
+										},
+										{
+											year: 1900,
+											value: [0, 0, 0, 0]
+										},
+										{
+											year: 1896,
+											value: [0, 0, 0, 0]
+										}
+									]
+								},
+								{
+									country: "法国",//国家名称
+									//奖牌统计
+									medal: [
+										{
+											year: 2016,//年份
+											value: [10, 18, 14, 42] //金银铜合计数量
+										},
+										{
+											year: 2012,
+											value: [11, 11, 12, 34]
+										},
+										{
+											year: 2008,
+											value: [7, 16, 17, 40]
+										},
+										{
+											year: 2004,
+											value: [11, 9, 13, 33]
+										},
+										{
+											year: 2000,
+											value: [13, 14, 11, 38]
+										},
+										{
+											year: 1996,
+											value: [15, 7, 15, 37]
+										},
+										{
+											year: 1992,
+											value: [8, 5, 16, 29]
+										},
+										{
+											year: 1988,
+											value: [6, 4, 6, 16]
+										},
+										{
+											year: 1984,
+											value: [5, 7, 16, 28]
+										},
+										{
+											year: 1980,
+											value: [6, 5, 3, 14]
+										},
+										{
+											year: 1976,
+											value: [2, 3, 4, 9]
+										},
+										{
+											year: 1972,
+											value: [2, 4, 7, 13]
+										},
+										{
+											year: 1968,
+											value: [7, 3, 5, 15]
+										},
+										{
+											year: 1964,
+											value: [1, 8, 5, 15]
+										},
+										{
+											year: 1960,
+											value: [0, 2, 3, 5]
+										},
+										{
+											year: 1956,
+											value: [4, 4, 6, 14]
+										},
+										{
+											year: 1952,
+											value: [6, 6, 6, 18]
+										},
+										{
+											year: 1948,
+											value: [10, 6, 13, 29]
+										},
+										{
+											year: 1936,
+											value: [7, 6, 6, 19]
+										},
+										{
+											year: 1932,
+											value: [10, 5, 4, 19]
+										},
+										{
+											year: 1928,
+											value: [6, 10, 5, 21]
+										},
+										{
+											year: 1924,
+											value: [13, 15, 10, 38]
+										},
+										{
+											year: 1920,
+											value: [9, 19, 13, 41]
+										},
+										{
+											year: 1912,
+											value: [7, 4, 3, 14]
+										},
+										{
+											year: 1908,
+											value: [5, 5, 9, 19]
+										},
+										{
+											year: 1904,
+											value: [0, 0, 0, 0]
+										},
+										{
+											year: 1900,
+											value: [26, 41, 34, 101]
+										},
+										{
+											year: 1896,
+											value: [5, 4, 2, 11]
+										}
+									]
+								},
+								{
+									country: "意大利",//国家名称
+									//奖牌统计
+									medal: [
+										{
+											year: 2016,//年份
+											value: [8, 12, 8, 28] //金银铜合计数量
+										},
+										{
+											year: 2012,
+											value: [8, 9, 11, 28]
+										},
+										{
+											year: 2008,
+											value: [8, 10, 10, 28]
+										},
+										{
+											year: 2004,
+											value: [10, 11, 11, 32]
+										},
+										{
+											year: 2000,
+											value: [13, 8, 13, 34]
+										},
+										{
+											year: 1996,
+											value: [13, 10, 12, 35]
+										},
+										{
+											year: 1992,
+											value: [6, 5, 8, 19]
+										},
+										{
+											year: 1988,
+											value: [6, 4, 4, 14]
+										},
+										{
+											year: 1984,
+											value: [14, 6, 12, 32]
+										},
+										{
+											year: 1980,
+											value: [8, 3, 4, 15]
+										},
+										{
+											year: 1976,
+											value: [2, 7, 4, 13]
+										},
+										{
+											year: 1972,
+											value: [5, 3, 10, 18]
+										},
+										{
+											year: 1968,
+											value: [3, 4, 9, 16]
+										},
+										{
+											year: 1964,
+											value: [10, 10, 7, 27]
+										},
+										{
+											year: 1960,
+											value: [13, 10, 13, 36]
+										},
+										{
+											year: 1956,
+											value: [8, 8, 9, 25]
+										},
+										{
+											year: 1952,
+											value: [8, 9, 3, 21]
+										},
+										{
+											year: 1948,
+											value: [8, 12, 9, 29]
+										},
+										{
+											year: 1936,
+											value: [8, 9, 5, 22]
+										},
+										{
+											year: 1932,
+											value: [12, 12, 12, 36]
+										},
+										{
+											year: 1928,
+											value: [7, 5, 7, 19]
+										},
+										{
+											year: 1924,
+											value: [8, 3, 5, 16]
+										},
+										{
+											year: 1920,
+											value: [13, 5, 5, 23]
+										},
+										{
+											year: 1912,
+											value: [3, 1, 2, 6]
+										},
+										{
+											year: 1908,
+											value: [2, 2, 0, 4]
+										},
+										{
+											year: 1904,
+											value: [0, 0, 0, 0]
+										},
+										{
+											year: 1900,
+											value: [2, 1, 0, 3]
+										},
+										{
+											year: 1896,
+											value: [0, 0, 0, 0]
+										}
+									]
+								},
+								{
+									country: "匈牙利",//国家名称
+									//奖牌统计
+									medal: [
+										{
+											year: 2016,//年份
+											value: [8, 3, 4, 15] //金银铜合计数量
+										},
+										{
+											year: 2012,
+											value: [8, 4, 5, 17]
+										},
+										{
+											year: 2008,
+											value: [3, 5, 2, 10]
+										},
+										{
+											year: 2004,
+											value: [8, 6, 3, 17]
+										},
+										{
+											year: 2000,
+											value: [8, 6, 3, 17]
+										},
+										{
+											year: 1996,
+											value: [7, 4, 10, 21]
+										},
+										{
+											year: 1992,
+											value: [11, 12, 7, 30]
+										},
+										{
+											year: 1988,
+											value: [11, 6, 6, 23]
+										},
+										{
+											year: 1984,
+											value: [0, 0, 0, 0]
+										},
+										{
+											year: 1980,
+											value: [7, 10, 15, 32]
+										},
+										{
+											year: 1976,
+											value: [4, 5, 13, 22]
+										},
+										{
+											year: 1972,
+											value: [6, 13, 16, 35]
+										},
+										{
+											year: 1968,
+											value: [10, 10, 12, 32]
+										},
+										{
+											year: 1964,
+											value: [10, 7, 5, 22]
+										},
+										{
+											year: 1960,
+											value: [6, 8, 7, 21]
+										},
+										{
+											year: 1956,
+											value: [9, 10, 7, 26]
+										},
+										{
+											year: 1952,
+											value: [16, 10, 16, 42]
+										},
+										{
+											year: 1948,
+											value: [10, 5, 12, 27]
+										},
+										{
+											year: 1936,
+											value: [10, 1, 5, 16]
+										},
+										{
+											year: 1932,
+											value: [6, 4, 5, 15]
+										},
+										{
+											year: 1928,
+											value: [4, 5, 0, 9]
+										},
+										{
+											year: 1924,
+											value: [2, 3, 4, 9]
+										},
+										{
+											year: 1920,
+											value: [0, 0, 0, 0]
+										},
+										{
+											year: 1912,
+											value: [3, 2, 3, 8]
+										},
+										{
+											year: 1908,
+											value: [3, 4, 2, 9]
+										},
+										{
+											year: 1904,
+											value: [2, 1, 1, 4]
+										},
+										{
+											year: 1900,
+											value: [1, 3, 2, 6]
+										},
+										{
+											year: 1896,
+											value: [2, 1, 3, 6]
+										}
+									]
+								},
+								{
+									country: "瑞典",//国家名称
+									//奖牌统计
+									medal: [
+										{
+											year: 2016,//年份
+											value: [2, 6, 3, 11] //金银铜合计数量
+										},
+										{
+											year: 2012,
+											value: [1, 4, 3, 8]
+										},
+										{
+											year: 2008,
+											value: [0, 4, 1, 5]
+										},
+										{
+											year: 2004,
+											value: [4, 1, 2, 7]
+										},
+										{
+											year: 2000,
+											value: [4, 5, 3, 12]
+										},
+										{
+											year: 1996,
+											value: [2, 4, 2, 8]
+										},
+										{
+											year: 1992,
+											value: [1, 7, 4, 12]
+										},
+										{
+											year: 1988,
+											value: [0, 4, 7, 11]
+										},
+										{
+											year: 1984,
+											value: [2, 11, 6, 19]
+										},
+										{
+											year: 1980,
+											value: [3, 3, 6, 12]
+										},
+										{
+											year: 1976,
+											value: [4, 1, 0, 5]
+										},
+										{
+											year: 1972,
+											value: [4, 6, 6, 16]
+										},
+										{
+											year: 1968,
+											value: [2, 1, 1, 4]
+										},
+										{
+											year: 1964,
+											value: [2, 2, 4, 8]
+										},
+										{
+											year: 1960,
+											value: [1, 2, 3, 6]
+										},
+										{
+											year: 1956,
+											value: [8, 5, 6, 19]
+										},
+										{
+											year: 1952,
+											value: [12, 13, 10, 35]
+										},
+										{
+											year: 1948,
+											value: [16, 11, 17, 44]
+										},
+										{
+											year: 1936,
+											value: [6, 5, 9, 20]
+										},
+										{
+											year: 1932,
+											value: [9, 5, 9, 23]
+										},
+										{
+											year: 1928,
+											value: [7, 6, 12, 25]
+										},
+										{
+											year: 1924,
+											value: [4, 13, 12, 29]
+										},
+										{
+											year: 1920,
+											value: [19, 20, 25, 64]
+										},
+										{
+											year: 1912,
+											value: [23, 24, 17, 64]
+										},
+										{
+											year: 1908,
+											value: [8, 6, 11, 25]
+										},
+										{
+											year: 1904,
+											value: [0, 0, 0, 0]
+										},
+										{
+											year: 1900,
+											value: [0, 0, 1, 1]
+										},
+										{
+											year: 1896,
+											value: [0, 0, 0, 0]
+										}
+									]
+								},
+								{
+									country: "澳大利亚",//国家名称
+									//奖牌统计
+									medal: [
+										{
+											year: 2016,//年份
+											value: [8, 11, 10, 29] //金银铜合计数量
+										},
+										{
+											year: 2012,
+											value: [7, 16, 12, 35]
+										},
+										{
+											year: 2008,
+											value: [14, 15, 17, 46]
+										},
+										{
+											year: 2004,
+											value: [17, 16, 16, 49]
+										},
+										{
+											year: 2000,
+											value: [16, 25, 17, 58]
+										},
+										{
+											year: 1996,
+											value: [9, 9, 23, 41]
+										},
+										{
+											year: 1992,
+											value: [7, 9, 11, 27]
+										},
+										{
+											year: 1988,
+											value: [3, 6, 5, 14]
+										},
+										{
+											year: 1984,
+											value: [4, 8, 12, 24]
+										},
+										{
+											year: 1980,
+											value: [2, 2, 5, 9]
+										},
+										{
+											year: 1976,
+											value: [0, 1, 4, 5]
+										},
+										{
+											year: 1972,
+											value: [8, 7, 2, 17]
+										},
+										{
+											year: 1968,
+											value: [5, 7, 5, 17]
+										},
+										{
+											year: 1964,
+											value: [6, 2, 10, 18]
+										},
+										{
+											year: 1960,
+											value: [8, 8, 6, 22]
+										},
+										{
+											year: 1956,
+											value: [13, 8, 14, 35]
+										},
+										{
+											year: 1952,
+											value: [6, 2, 3, 11]
+										},
+										{
+											year: 1948,
+											value: [2, 6, 5, 13]
+										},
+										{
+											year: 1936,
+											value: [0, 0, 1, 1]
+										},
+										{
+											year: 1932,
+											value: [3, 1, 1, 5]
+										},
+										{
+											year: 1928,
+											value: [1, 2, 1, 4]
+										},
+										{
+											year: 1924,
+											value: [3, 1, 2, 6]
+										},
+										{
+											year: 1920,
+											value: [0, 0, 0, 0]
+										},
+										{
+											year: 1912,
+											value: [2, 2, 37]
+										},
+										{
+											year: 1908,
+											value: [1, 2, 2, 5]
+										},
+										{
+											year: 1904,
+											value: [0, 0, 0, 0]
+										},
+										{
+											year: 1900,
+											value: [2, 0, 3, 5]
+										},
+										{
+											year: 1896,
+											value: [2, 0, 0, 2]
+										}
+									]
+								}
+							],
+							/**
+							* 创建前十的国家历年来奖牌数统计图
+							*/
+							drawTimeLineClomnChart: function () {
+								var xAxisData = [], timelineData = [], seriesData = [];
+
+								//获取时间轴的年份数组
+								$(this.data[0].medal).each(function () {
+									timelineData.push(this.year);
+								});
+
+								//获取x轴刻度（国家数组)
+								$(this.data).each(function () {
+									xAxisData.push(this.country);
+								});
+
+								//获取每一年每一个国家每一个指标的数据序列
+								$(timelineData).each(function () {
+									var jin = [], yin = [], tong = [], total = [];
+
+									var out = this;
+									$(Chart.data).each(function () {
+										$(this.medal).each(function () {
+											if (this.year == out.toString()) {
+												jin.push(this.value[0]);
+												yin.push(this.value[1]);
+												tong.push(this.value[2]);
+												total.push(this.value[3]);
+											}
+										});
+									});
+									seriesData.push({
+										title: { text: this.toString() + '年奥运会奖牌榜强国对比统计' },
+										series: [
+											{ data: jin },
+											{ data: yin },
+											{ data: tong },
+											{ data: total }
+										]
+									});
+								});
+
+								var option = {
+									baseOption: {
+										timeline: {
+											axisType: 'category',
+											autoPlay: true, //是否自动播放
+											playInterval: 1000, //播放间隔时间（毫秒)
+											data: timelineData,
+											left: 30,
+											right: 30
+										},
+										title: {
+											title: '历年奥运会奖牌榜前十对比统计',
+											x: 'center'
+										},
+										tooltip: {
+											trigger: "axis"
+										},
+										legend: {
+											x: 'right',
+											data: ['金牌', '银牌', '铜牌', '总数']
+										},
+										calculable: false,
+										grid: {
+											left: 50,
+											right: 30,
+											top: 80,
+											bottom: 100,
+											tooltip: {
+												trigger: 'axis',
+												axisPointer: {
+													type: 'shadow',
+													label: {
+														show: true,
+														formatter: function (params) {
+															return params.value.replace('\n', '');
+														}
+													}
+												}
+											}
+										},
+										xAxis: [
+											{
+												type: 'category',
+												axisLabel: { interval: 0 },
+												splitLine: { show: false },
+												data: xAxisData
+											}
+										],
+										yAxis: [
+											{
+												type: 'value',
+												name: '奖牌(枚)'
+											}
+										],
+										series: [
+											{ name: '金牌', type: 'bar' },
+											{ name: '银牌', type: 'bar' },
+											{ name: '铜牌', type: 'bar' },
+											{ name: '总数', type: 'bar' }
+										]
+									},
+									options: seriesData
+								};
+								var myChart = echarts.init(document.getElementById("myChart"));
+								myChart.setOption(option);
+							}
+						};
+
+						$(document).ready(function () {
+							Chart.drawTimeLineClomnChart();
+						})
+
+						// 使用刚指定的配置项和数据显示图表。
+						myChart.setOption(option);
+					</script>
+					<div style="text-align:center;line-height:50px;width:1000px;margin:10px 0;">图7:历届获奖牌数变化</div>
+
+					<div style="text-align:left;line-height:25px;width:100%;margin:10px 0;">作为第一集团的美俄德，其中长期表现的最稳定的是美国，其竞技水平之高人尽皆知，但在苏联解体前的几届，美国的奥运成绩金牌奖牌数一直位居其后。由上图动态柱状图可以看出，从1956年至1992年苏联的金牌奖牌数基本是位居榜首，美国德国交错占据二三位。随着二十世纪九十年代初苏联解体和两德合并，美国在奥运竞技体坛的霸主地位逐渐显示出来，这不同于初始几届奥运会美国成绩突出是因为参赛国数量少且分散，美国近六届奥运（自1996年以来）均能保持金牌数奖牌总数第一位（除08北京奥运中国金牌数第一），这又归功于其在田径和游泳两大基础项目的强势还有较其他国家而言更广的获奖面。</div>
+					<div style="text-align:left;line-height:25px;width:100%;margin:10px 0;">中国是典型的奥运会赛场上的后起之秀，1984年才收获第一枚奥运金牌但自2000年起进入奖牌榜的第一梯队并开始稳定在前三甲。中国代表队的成绩在第29届北京奥运会上达到巅峰，以51枚金牌雄踞首位，这是第一次也是至今唯一一次的金牌榜第一位。中国队在这届奥运会上强势项目全面开花，冷门项目上也取得了很多突破。然而在之后的两个奥运周期里，由于队伍的更新换代还有更多国家体育竞技的发展，08年的突破没有能完全延续，但是也还是保持在奥运的第一阵营当中。总体来说，获奖面窄是中国在奥运会上取得更好成绩的一大障碍，也正是与长期雄踞世界经济体坛霸主地位的美俄两国的差距所在。所以尽管金牌数奖牌数较08年巅峰时期有所下降，但在近几届奥运会中，中国军团正逐渐扩大获奖面和获金面。</div>
+
+					<div style="text-align:left;line-height:25px;width:100%;font-size:18px;">2）总得分基尼系数</div>
+					<div style="width:100%;">
+
+					<!--line graph-->
+					<div id="line2" style="height:300px;width:30%;float:left;"></div>
+					<div id="line1" style="height:300px;width:70%;float:right;"></div>
+
+						<div>.</div>
+					</div>
+
+					<script type="text/javascript">
+						// 基于准备好的dom，初始化echarts实例
+						var myChart = echarts.init(document.getElementById('line2'));
+
+						// 指定图表的配置项和数据
+					option = {
+					    title: {
+					        text: 'GINI＝0.7908',
+									left: 'right',
+									top: 'top'
+
+					    },
+					    tooltip: {
+					        trigger: 'axis'
+					    },
+					    legend: {
+					        data:['bins','results'],
+									x: 'left'
+					    },
+					    grid: {
+					        left: '3%',
+					        right: '4%',
+					        bottom: '3%',
+					        containLabel: true
+					    },
+					    toolbox: {
+					                    show : true,
+					                    feature : {
+					                    }
+					                },
+					                calculable: true,
+					    xAxis: {
+					        type: 'category',
+									name: '',
+									nameLocation: 'end',
+				          nameGap:1,
+				          nameTextStyle: {
+				              color: '#000000',
+				              fontSize: 12
+				          },
+					        boundaryGap: false,
+					        data: ['0','10','20','30','40','50','60','70','80','90','100']
+					    },
+					    yAxis: {
+					        type: 'value',
+									name: '',
+									nameLocation: 'end',
+				          nameGap:20,
+				          nameTextStyle: {
+				              color: '#000000',
+				              fontSize: 12
+				          },
+
+					    },
+					    series: [
+					        {
+					            name:'bins',
+					            type:'line',
+					            data:[ 0,   10,   20,   30,   40,   50,   60,   70,   80,
+					         90,  100]
+					        },
+					        {
+					            name:'results',
+					            type:'line',
+					            data:[0.01163422011944466,
+					 0.04007342485586494,
+					 0.11634220119444659,
+					 0.24819669588148607,
+					 0.4537345846583417,
+					 1.0716409421132915,
+					 2.366917448744797,
+					 5.020812327102562,
+					 12.605031153856098,
+					 32.677938933271285,
+					 100.0]
+					        }
+					    ]
+					};
+					// 使用刚指定的配置项和数据显示图表。
+					myChart.setOption(option);
+				</script>
+
+					<script type="text/javascript">
+						// 基于准备好的dom，初始化echarts实例
+						var myChart = echarts.init(document.getElementById('line1'));
+
+						// 指定图表的配置项和数据
+						option = {
+							title: {
+								text: ''
+							},
+							tooltip: {
+								trigger: 'axis'
+							},
+							legend: {
+								data: ['gini']
+							},
+							grid: {
+								left: '3%',
+								right: '4%',
+								bottom: '3%',
+								containLabel: true
+							},
+
+							xAxis: {
+								type: 'category',
+								boundaryGap: false,
+								data: ['1896年', '1890年', '1904年', '1908年', '1912年', '1920年', '1924年', '1928年', '1932年', '1936年', '1948年',
+									'1952年', '1956年', '1960年', '1964年', '1968年', '1972年', '1976年', '1980年', '1984年', '1988年', '1992年',
+									'1996年', '2000年', '2004年', '2008年', '2012年', '2016年']
+							},
+							yAxis: {
+								type: 'value'
+							},
+							series: [
+
+								{
+									name: '总分gini',
+									type: 'line',
+									stack: '总量',
+									data: [0.4651, 0.6784, 0.8132, 0.6913, 0.5604, 0.6176, 0.6322, 0.5620, 0.6510, 0.6560, 0.6475, 0.6856, 0.6646, 0.7045, 0.6874, 0.6607, 0.7183, 0.7017, 0.7203, 0.7254, 0.7291, 0.7202, 0.6992, 0.6994, 0.6835, 0.7244, 0.7158, 0.7016]
+								},
+
+							]
+						};
+						// 使用刚指定的配置项和数据显示图表。
+						myChart.setOption(option);
+					</script>
+					<div style="text-align:center;line-height:25px;width:100%;margin:10px 0;">图8:累计总得分基尼系数及历届变化</div>
+					<div style="text-align:left;line-height:25px;width:100%;margin:10px 0;">前文中解析了奥运会各单项基尼系数并得出绝大多数奥运单项的获奖国家间实力差距悬殊，这些单个项目存在被垄断的情况。同样给各国所获金银铜牌数以4、2、1分赋值，以各国历届奥运会的累计总得分为对象，计算出奥运会总成绩的基尼系数为0.7908，属于差距悬殊。</div>
+					<div style="text-align:left;line-height:25px;width:100%;margin:10px 0;">另外以同样的方法分别计算出1896到2016每一届奥运会各国总得分的基尼系数，除了第一届奥运的基尼系数约0.45其他届均超过0.5这一指标，也就是说几乎每一届奥运会的成绩国家与国家间都有着悬殊的差距。而且就历届变化趋势而言，1932年之前的奥运会的基尼系数每届间有较大波动，虽说基本也是在差距悬殊的范畴内波动，但最高的1904年有超过0.8，这一年结合图6的各国历届获奖牌数可看出在1904年美国几乎将所有奖牌收入囊中，垄断了那届奥运。在1932年之后，单届奥运会的基尼系数渐趋平稳，虽有轻微波动但也都维持在0.65－0.75之间，保持着较高水平的被垄断程度。</div>
+					<div style="text-align:left;line-height:25px;width:100%;margin:10px 0;">所以总得分的基尼系数及历届变化可以推出国家间在奥运会总体实力上差距悬殊，结合前文单项的基尼系数的情况便可得出，奥运会不论是单项上还是总体国家间的成绩都相悬殊，被垄断的程度都很高。</div>
+
+										<div style="text-align:left;line-height:25px;width:100%;margin:10px 0;font-size:18px;">3) 各国奖牌数&总得分与可能性之间关系</div>
+										<p style="text-align: center; "><img src="./图10.jpg" style="width: 100%; " /></p>
+										<div style="text-align:center;line-height:25px;width:100%;margin:10px 0;">图9:各国奖牌数与总得分可能性关系</div>
+										<div style="text-align:left;line-height:25px;width:100%;margin:10px 0;"></div>
+										<div style="text-align:left;line-height:25px;width:100%;margin:10px 0;">如图9所示，定量分析国家获奖情况与可能性大小，可见国家所获金银铜牌数以及算出的总得分均与可能性呈负相关，并且这四个自变量与可能性的关系均落在一次函数模型的附近。这也就表明一个国家奥运成绩越好的可能性就越低，奥运成绩好的国家数量也少，也就是说往往强国拿到的奖牌多，弱国获得奖牌少，这样说明了奥运会奖牌资源的分布具有很强的异质性或不平等性。</div>
+
+
+				</div>
+				<div role="tabpanel" class="tab-pane" id="profile" style="padding-bottom: 15px;border-bottom: 2px solid gray;">
+					<div style="text-align:left;line-height:50px;width:100%;font-size:24px;">二、奥运被垄断相关因素分析</div>
+
+					<div style="text-align:left;line-height:25px;width:100%;margin:10px 0;font-size:22px;">1、人口&GDP与总得分 </div>
+					<div style="width:100%;">
+
+						<!--scatter1-->
+						<div id="scatter1" style="height:300px;width:500px;float:left;"></div>
+						<div id="scatter2" style="height:300px;width:500px;float:right;"></div>
+					</div>
+
+					<script type="text/javascript">
+						// 基于准备好的dom，初始化echarts实例
+						var myChart = echarts.init(document.getElementById('scatter1'));
+
+						// 指定图表的配置项和数据
+
+						option = {
+							title: {
+								text: ''
+							},
+							grid: {
+								left: '5%',
+								right: '20%',
+								bottom: '3%',
+								containLabel: true
+							},
+							tooltip: {
+								// trigger: 'axis',
+								showDelay: 0,
+								formatter: function (params) {
+									{
+										return params.seriesName + ' :<br/>'
+											+ params.value[0] + ','
+											+ params.value[1];
+									}
+
+								},
+								axisPointer: {
+									show: true,
+									type: 'cross',
+									lineStyle: {
+										type: 'dashed',
+										width: 1
+									}
+								}
+							},
+
+							legend: {
+								data: ['人口与总分'],
+								left: 'center'
+							},
+							xAxis: [
+								{
+									type: 'value',
+									min: 5,
+									max: 25,
+									name: '人口（对数）',
+									nameGap: 16,
+									nameTextStyle: {
+										color: '#000000',
+										fontSize: 12
+									},
+
+									axisLabel: {
+										formatter: '{value} '
+									},
+									splitLine: {
+										show: false
+									}
+								}
+							],
+							yAxis: [
+								{
+									type: 'value',
+									name: '总得分（对数）',
+									nameLocation: 'end',
+									nameGap: 20,
+									nameTextStyle: {
+										color: '#000000',
+										fontSize: 12
+									},
+									scale: true,
+									axisLabel: {
+										formatter: '{value} '
+									},
+									splitLine: {
+										show: false
+									}
+								}
+							],
+							series: [
+								{
+									name: '人口与总分',
+									type: 'scatter',
+									data: [[17.29756764, 1.09861229],
+									[14.87647913, 0.],
+									[17.49601806, 3.55534806],
+									[10.92484076, 0.],
+									[11.16299913, 0.],
+									[17.035265, 0.],
+									[11.42757453, 0.],
+									[17.58635601, 6.48004456],
+									[14.92000982, 3.29583687],
+									[11.55108793, 0.],
+									[16.98440465, 7.90470391],
+									[15.96856135, 5.68017261],
+									[16.08260836, 4.35670883],
+									[12.86881216, 4.44265126],
+									[14.1355906, 2.07944154],
+									[18.89688786, 0.],
+									[12.55748979, 0.69314718],
+									[16.06816995, 5.3981627],
+									[16.23904894, 6.79905586],
+									[12.79187957, 0.],
+									[11.08576674, 0.69314718],
+									[16.20242117, 0.],
+									[13.56040022, 0.],
+									[16.18806061, 0.],
+									[15.15324919, 0.],
+									[14.63197477, 1.09861229],
+									[19.15231534, 6.89972311],
+									[10.31287828, 0.],
+									[12.95557417, 0.],
+									[15.78653024, 6.46769873],
+									[16.71173024, 0.],
+									[16.2295406, 1.94591015],
+									[16.5613638, 0.],
+									[16.96585826, 4.44265126],
+									[17.39490364, 7.26403014],
+									[13.16255093, 0.],
+									[11.00156637, 0.],
+									[15.40480188, 0.],
+									[16.45724095, 0.],
+									[16.70299716, 3.95124372],
+									[21.03896669, 7.71199651],
+									[17.69146494, 3.93182563],
+									[13.57785598, 0.],
+									[15.34597691, 0.],
+									[18.16277512, 0.],
+									[15.38576076, 2.19722458],
+									[16.93794407, 2.07944154],
+									[15.25638898, 5.84932478],
+									[16.24820797, 6.96885038],
+									[13.96848998, 1.09861229],
+									[16.17175205, 4.94875989],
+									[15.55175785, 7.13089883],
+									[13.6965716, 0.69314718],
+									[11.19383528, 0.],
+									[16.16958617, 2.94443898],
+									[14.03465894, 0.],
+									[16.59708157, 1.94591015],
+									[18.33193789, 4.14313473],
+									[15.62814789, 0.],
+									[13.64716409, 0.],
+									[14.08706249, 4.39444915],
+									[18.41456962, 4.86753445],
+									[13.70138508, 3.97029191],
+									[15.51698311, 6.85646198],
+									[18.01733917, 8.10741881],
+									[14.36090745, 1.09861229],
+									[14.50410991, 0.],
+									[15.11815181, 4.14313473],
+									[18.21504732, 8.1241506],
+									[17.1264146, 2.89037176],
+									[16.19725178, 5.79909265],
+									[11.57895662, 1.94591015],
+									[12.0428829, 0.],
+									[16.60930399, 1.09861229],
+									[16.34988896, 0.],
+									[14.42762446, 0.],
+									[13.5503542, 0.69314718],
+									[16.18678816, 2.30258509],
+									[15.90429098, 0.],
+									[15.80416556, 2.30258509],
+									[16.10244248, 7.89095672],
+									[12.70934179, 3.49650756],
+									[20.99409458, 6.38012254],
+									[19.36677808, 4.54329478],
+									[18.18634066, 5.00394631],
+									[17.41072187, 0.69314718],
+									[15.35037664, 4.29045944],
+									[15.94140632, 2.63905733],
+									[17.92313466, 8.0931567],
+									[14.81832461, 5.8230459],
+									[18.65937061, 7.50823877],
+									[15.84294118, 1.60943791],
+									[16.68022981, 4.8978398],
+									[17.6452449, 5.52146092],
+									[17.04057988, 4.8598124],
+									[17.73979895, 7.14519613],
+									[15.17446353, 1.09861229],
+									[15.60007772, 1.60943791],
+									[15.73273077, 0.],
+									[14.49781972, 3.71357207],
+									[15.58207939, 1.94591015],
+									[14.57398798, 0.],
+									[15.32035189, 0.],
+									[15.65263194, 0.],
+									[10.53294918, 0.],
+									[14.88373237, 4.47733681],
+									[13.25282481, 1.94591015],
+									[14.54713491, 0.69314718],
+									[17.00332456, 0.],
+									[16.66130519, 0.],
+									[17.22768111, 3.33220451],
+									[12.92187133, 0.],
+									[16.68339213, 0.],
+									[12.97463801, 0.],
+									[15.2185551, 0.],
+									[14.0486884, 0.69314718],
+									[18.65983327, 5.45532112],
+									[11.55656907, 0.],
+									[15.08362677, 2.39789527],
+									[10.53826382, 0.],
+									[14.90040755, 3.76120012],
+									[17.35291319, 3.8501476],
+									[17.14692418, 1.79175947],
+									[17.80258825, 0.],
+									[14.71519659, 2.19722458],
+									[9.23239536, 0.],
+									[17.16589527, 0.],
+									[16.64498285, 7.56475701],
+									[15.34063186, 6.31896811],
+									[15.62084957, 0.],
+									[16.80618612, 1.38629436],
+									[19.02062632, 5.28826703],
+									[15.46338465, 7.24494155],
+									[15.31748397, 0.],
+									[19.05686001, 5.68017261],
+									[9.96608669, 0.],
+									[15.18393164, 1.94591015],
+									[15.84619795, 0.],
+									[15.70849059, 3.55534806],
+									[17.26157521, 3.49650756],
+									[18.42765036, 2.63905733],
+									[17.45308343, 6.93925395],
+									[16.15236654, 4.06044301],
+									[15.0608699, 2.7080502],
+									[14.61991106, 1.94591015],
+									[16.80282702, 0.],
+									[18.78599594, 7.60389797],
+									[16.26734867, 0.],
+									[10.92545275, 0.],
+									[12.1281111, 0.],
+									[11.60334187, 0.],
+									[12.17163129, 0.],
+									[10.36665537, 0.],
+									[12.15659349, 0.],
+									[17.26677897, 2.07944154],
+									[16.5321421, 1.09861229],
+									[15.77535855, 3.36729583],
+									[11.43928969, 0.],
+									[15.68008437, 0.],
+									[15.52660267, 2.56494936],
+									[15.50635351, 4.59511985],
+									[14.54004448, 4.06044301],
+									[13.27695739, 0.],
+									[16.193862, 0.],
+									[17.82206018, 5.59842196],
+									[17.65320369, 6.96129605],
+									[16.85841268, 1.60943791],
+									[17.51024491, 1.09861229],
+									[13.2048204, 1.79175947],
+									[14.06780195, 0.],
+									[16.09777783, 7.83042562],
+									[15.9301958, 6.69084228],
+									[16.73341177, 2.07944154],
+									[15.95343985, 2.19722458],
+									[17.79463918, 1.60943791],
+									[18.03442044, 4.20469262],
+									[15.80401197, 0.69314718],
+									[11.57280628, 1.09861229],
+									[14.1230607, 3.4657359],
+									[16.22315821, 3.33220451],
+									[18.18071945, 5.48063892],
+									[15.49699058, 0.],
+									[17.47990222, 2.83321334],
+									[17.62656784, 5.90808294],
+									[16.03002524, 1.79175947],
+									[17.99202223, 8.37655086],
+									[19.58825557, 9.48713843],
+									[15.04852436, 5.35185813],
+									[17.25911271, 4.21950771],
+									[12.48617481, 0.],
+									[17.25297828, 3.21887582],
+									[18.33407439, 2.39789527],
+									[11.54805127, 1.09861229],
+									[17.10511381, 0.],
+									[16.60124796, 1.38629436],
+									[16.56295787, 4.40671925]
+									],
+									markArea: {
+										silent: true,
+										itemStyle: {
+											normal: {
+												color: 'transparent',
+												borderWidth: 1,
+												borderType: 'dashed'
+											}
+										},
+
+									}
+								}
+							]
+						};
+						// 使用刚指定的配置项和数据显示图表。
+						myChart.setOption(option);
+					</script>
+
+					<script type="text/javascript">
+						// 基于准备好的dom，初始化echarts实例
+						var myChart = echarts.init(document.getElementById('scatter2'));
+
+						// 指定图表的配置项和数据
+
+						option = {
+							title: {
+								text: ''
+							},
+							grid: {
+								left: '5%',
+								right: '20%',
+								bottom: '3%',
+								containLabel: true
+							},
+							tooltip: {
+								// trigger: 'axis',
+								showDelay: 0,
+								formatter: function (params) {
+									{
+										return params.seriesName + ' :<br/>'
+											+ params.value[0] + ','
+											+ params.value[1];
+									}
+
+								},
+								axisPointer: {
+									show: true,
+									type: 'cross',
+									lineStyle: {
+										type: 'dashed',
+										width: 1
+									}
+								}
+							},
+
+							legend: {
+								data: ['GDP与总分'],
+								left: 'center'
+							},
+							xAxis: [
+								{
+									type: 'value',
+									min: 5,
+									max: 13,
+									name: 'GDP（对数）',
+									nameGap: 16,
+									nameTextStyle: {
+										color: '#000000',
+										fontSize: 12
+									},
+
+									axisLabel: {
+										formatter: '{value} '
+									},
+									splitLine: {
+										show: false
+									}
+								}
+							],
+							yAxis: [
+								{
+									type: 'value',
+									name: '总得分（对数）',
+									nameLocation: 'end',
+									nameGap: 20,
+									nameTextStyle: {
+										color: '#000000',
+										fontSize: 12
+									},
+									scale: true,
+									axisLabel: {
+										formatter: '{value} '
+									},
+									splitLine: {
+										show: false
+									}
+								}
+							],
+							series: [
+								{
+									name: 'GDP与总分',
+									type: 'scatter',
+									data: [[6.38910425, 1.09861229],
+									[8.28051282, 0.],
+									[8.34451251, 3.55534806],
+									[8.31934503, 0.],
+									[9.52629877, 0.],
+									[9.50546059, 6.48004456],
+									[8.1576936, 3.29583687],
+									[10.93866228, 7.90470391],
+									[10.68684066, 5.68017261],
+									[8.61202046, 4.35670883],
+									[10.03531509, 4.44265126],
+									[10.0257589, 2.07944154],
+									[7.10060582, 0.],
+									[9.64409101, 0.69314718],
+									[8.6554682, 5.3981627],
+									[10.60472759, 6.79905586],
+									[8.49284338, 0.],
+									[6.63732514, 0.],
+									[7.88495253, 0.],
+									[8.03196767, 0.],
+									[8.35475198, 0.],
+									[8.75796261, 1.09861229],
+									[9.05246827, 6.89972311],
+									[10.3273075, 0.],
+									[8.85287617, 6.46769873],
+									[6.38143424, 0.],
+									[5.6278668, 1.94591015],
+									[7.05590792, 0.],
+									[7.10517944, 4.44265126],
+									[10.67474164, 7.26403014],
+									[8.03306753, 0.],
+									[5.78136577, 0.],
+									[6.65504785, 0.],
+									[9.50429498, 3.95124372],
+									[8.99077588, 7.71199651],
+									[8.70899429, 3.93182563],
+									[6.57709451, 0.],
+									[7.52412936, 0.],
+									[6.12479879, 0.],
+									[9.32910889, 2.19722458],
+									[7.24422034, 2.07944154],
+									[9.35329975, 5.84932478],
+									[10.05379543, 1.09861229],
+									[9.77277152, 4.94875989],
+									[10.85881232, 7.13089883],
+									[7.57359513, 0.69314718],
+									[8.87029586, 0.],
+									[8.77485001, 2.94443898],
+									[7.05530677, 0.],
+									[8.73328218, 1.94591015],
+									[8.19305369, 4.14313473],
+									[8.34767342, 0.],
+									[9.57779858, 0.],
+									[9.74797369, 4.39444915],
+									[6.42999268, 4.86753445],
+									[8.50946742, 3.97029191],
+									[10.65282687, 6.85646198],
+									[10.49699582, 8.10741881],
+									[9.02008087, 1.09861229],
+									[6.15811646, 0.],
+									[8.24195953, 4.14313473],
+									[10.6289643, 8.1241506],
+									[7.22307766, 2.89037176],
+									[9.7983065, 5.79909265],
+									[9.12837302, 1.94591015],
+									[8.2698796, 1.09861229],
+									[6.27724593, 0.],
+									[6.35260924, 0.],
+									[8.32563334, 0.69314718],
+									[6.70850316, 2.30258509],
+									[7.83593251, 0.],
+									[10.65322393, 2.30258509],
+									[9.42258826, 7.89095672],
+									[10.82325902, 3.49650756],
+									[7.3772957, 6.38012254],
+									[8.11596521, 4.54329478],
+									[8.50608379, 0.69314718],
+									[11.02083445, 4.29045944],
+									[10.48372058, 2.63905733],
+									[10.30757853, 8.0931567],
+									[8.5627447, 5.8230459],
+									[10.38832484, 7.50823877],
+									[8.5053323, 1.60943791],
+									[9.26017581, 4.8978398],
+									[7.22818003, 5.52146092],
+									[10.2118, 7.14519613],
+									[10.28539657, 1.09861229],
+									[7.00689027, 1.60943791],
+									[7.5062848, 0.],
+									[9.52146165, 3.71357207],
+									[8.99325904, 1.94591015],
+									[6.97352956, 0.],
+									[6.1244075, 0.],
+									[9.55733204, 4.47733681],
+									[11.52733089, 1.94591015],
+									[8.4874879, 0.69314718],
+									[5.99852955, 0.],
+									[5.92154021, 0.],
+									[9.18700284, 3.33220451],
+									[9.0356042, 0.],
+									[6.58652509, 0.],
+									[10.02558048, 0.],
+									[9.13271507, 0.69314718],
+									[9.105649, 5.45532112],
+									[8.01176354, 0.],
+									[7.52243366, 2.39789527],
+									[8.28622647, 3.76120012],
+									[7.96526822, 3.8501476],
+									[6.27333455, 1.79175947],
+									[7.05831795, 0.],
+									[8.44989187, 2.19722458],
+									[9.19304611, 0.],
+									[6.61247503, 0.],
+									[10.69875729, 7.56475701],
+									[10.54030158, 6.31896811],
+									[7.64391166, 0.],
+									[5.88598778, 1.38629436],
+									[7.87902299, 5.28826703],
+									[11.21722963, 7.24494155],
+									[9.65192371, 0.],
+									[7.26940549, 5.68017261],
+									[9.51041988, 0.],
+									[9.49319434, 1.94591015],
+									[8.31433045, 3.55534806],
+									[8.70419144, 3.49650756],
+									[7.97425823, 2.63905733],
+									[9.43791788, 6.93925395],
+									[9.86387056, 4.06044301],
+									[11.20713909, 1.94591015],
+									[9.10207815, 0.],
+									[9.11532401, 7.60389797],
+									[6.54871787, 0.],
+									[9.66605144, 0.],
+									[8.95375772, 0.],
+									[8.81584114, 0.],
+									[8.27882149, 0.],
+									[7.42061679, 0.],
+									[9.92733812, 2.07944154],
+									[6.80303887, 1.09861229],
+									[8.56334029, 3.36729583],
+									[9.64711159, 0.],
+									[6.48330888, 0.],
+									[10.87596474, 2.56494936],
+									[9.68590834, 4.59511985],
+									[9.93921852, 4.06044301],
+									[7.56830504, 0.],
+									[6.31040357, 0.],
+									[8.65259317, 5.59842196],
+									[10.15939185, 6.96129605],
+									[8.27567546, 1.60943791],
+									[7.78975415, 1.09861229],
+									[9.15760596, 1.79175947],
+									[8.07126322, 0.],
+									[10.83132484, 7.83042562],
+									[11.30153852, 6.69084228],
+									[6.83185851, 2.19722458],
+									[6.77989362, 1.60943791],
+									[8.66832843, 4.20469262],
+									[6.32907163, 0.69314718],
+									[8.31863101, 1.09861229],
+									[9.75978372, 3.4657359],
+									[8.26191689, 3.33220451],
+									[9.1189581, 5.48063892],
+									[8.80589637, 0.],
+									[6.56002956, 2.83321334],
+									[7.65726139, 5.90808294],
+									[10.60756881, 1.79175947],
+									[10.68914485, 8.37655086],
+									[10.93518906, 9.48713843],
+									[9.65341598, 5.35185813],
+									[7.66531771, 4.21950771],
+									[7.93962739, 0.],
+									[7.65545599, 2.39789527],
+									[7.24942232, 0.],
+									[7.17463167, 1.38629436],
+									[6.82994921, 4.40671925]],
+									markArea: {
+										silent: true,
+										itemStyle: {
+											normal: {
+												color: 'transparent',
+												borderWidth: 1,
+												borderType: 'dashed'
+											}
+										},
+
+									}
+								}
+							]
+						};
+						// 使用刚指定的配置项和数据显示图表。
+						myChart.setOption(option);
+					</script>
+					<div style="text-align:center;line-height:25px;width:100%;margin:10px 0;">图10:国家人口与总得分关系&GDP与总得分关系</div>
+					<div style="text-align:left;line-height:25px;width:100%;margin:10px 0;">上图横坐标分别为人口和GDP，纵坐标为国家的奥运总得分，由此可看出两个自变量人口和GDP对国家奥运成绩的影响，根据散点的分布可得出一个国家的奥运总得分均与其人口和GDP呈正相关的关系。再结合前文用基尼系数推断出的不论奥运总分还是单项均存在很强的垄断，可以说明这种垄断与人口和GDP是正相关的。</div>
+
+					<div style="text-align:left;line-height:25px;width:100%;margin:10px 0;font-size:22px;">2、各国奖牌数与总得分之间关系</div>
+					<div style="width:100%;">
+						<div style="width:100%;">
+							<!--scatter3-->
+							<div id="scatter3" style="height:300px;width:500px;float:left;"></div>
+							<!--scatter4-->
+							<div id="scatter4" style="height:300px;width:500px;float:right;"></div>
+						</div>
+						<script type="text/javascript">
+							// 基于准备好的dom，初始化echarts实例
+							var myChart = echarts.init(document.getElementById('scatter3'));
+
+							// 指定图表的配置项和数据
+							option = {
+								title: {
+									text: ''
+								},
+								grid: {
+									left: '8%',
+									right: '20%',
+									bottom: '3%',
+									containLabel: true
+								},
+								tooltip: {
+									// trigger: 'axis',
+									showDelay: 0,
+									formatter: function (params) {
+										{
+											return params.seriesName + ' :<br/>'
+												+ params.value[0] + ','
+												+ params.value[1];
+										}
+
+									},
+									axisPointer: {
+										show: true,
+										type: 'cross',
+										lineStyle: {
+											type: 'dashed',
+											width: 1
+										}
+									}
+								},
+
+								legend: {
+									data: ['银牌','铜牌'],
+									left: 'center'
+								},
+								xAxis: [
+									{
+										type: 'value',
+										name: '金牌数（对数）',
+										nameGap: 16,
+										nameTextStyle: {
+											color: '#000000',
+											fontSize: 12
+										},
+
+										axisLabel: {
+											formatter: '{value} '
+										},
+										splitLine: {
+											show: false
+										}
+									}
+								],
+								yAxis: [
+									{
+										type: 'value',
+										name: '银/铜牌数（对数）',
+										nameLocation: 'end',
+										nameGap: 20,
+										nameTextStyle: {
+											color: '#000000',
+											fontSize: 12
+										},
+										scale: true,
+										axisLabel: {
+											formatter: '{value} '
+										},
+										splitLine: {
+											show: false
+										}
+									}
+								],
+								series: [
+									{
+										name: '银牌',
+										type: 'scatter',
+										data: [[0., 0.],
+										[0., 0.69314718],
+										[1.79175947, 1.38629436],
+										[3.04452244, 1.60943791],
+										[4.51085951, 4.61512052],
+										[1.09861229, 1.79175947],
+										[5.81711116, 6.08221891],
+										[3.09104245, 4.40671925],
+										[2.07944154, 2.56494936],
+										[2.7080502, 2.30258509],
+										[0., 0.],
+										[0.69314718, 0.69314718],
+										[4.54329478, 5.22574667],
+										[0., 0.],
+										[2.94443898, 3.73766962],
+										[0., 0.69314718],
+										[0., 0.69314718],
+										[4.7095302, 5.19849703],
+										[0.69314718, 0.69314718],
+										[3.98898405, 4.97673374],
+										[0., 0.],
+										[5.07517382, 5.46806014],
+										[1.38629436, 2.30258509],
+										[5.80814249, 5.78382518],
+										[0.69314718, 0.69314718],
+										[3.04452244, 0.69314718],
+										[1.79175947, 2.19722458],
+										[0.69314718, 0.69314718],
+										[3.98898405, 3.91202301],
+										[5.14166356, 4.88280192],
+										[0., 0.69314718],
+										[2.77258872, 3.21887582],
+										[5.11198779, 5.33753808],
+										[0., 0.],
+										[1.38629436, 1.09861229],
+										[0.69314718, 0.69314718],
+										[2.07944154, 2.39789527],
+										[0., 0.],
+										[4.68213123, 5.50938834],
+										[2.30258509, 2.39789527],
+										[3.13549422, 2.39789527],
+										[4.2341065, 4.61512052],
+										[4.53259949, 4.18965474],
+										[2.63905733, 0.],
+										[4.82831374, 4.79579055],
+										[6.06145692, 6.30078579],
+										[4.9698133, 5.12396398],
+										[0., 0.69314718],
+										[6.40687999, 6.51174533],
+										[5.79909265, 5.60580207],
+										[2.19722458, 1.94591015],
+										[6.2126061, 6.04263283],
+										[0., 0.69314718],
+										[3.63758616, 4.15888308],
+										[0.69314718, 0.69314718],
+										[0., 0.69314718],
+										[0., 0.],
+										[0., 0.69314718],
+										[0.69314718, 1.09861229],
+										[6.04025471, 5.768321],
+										[2.48490665, 2.94443898],
+										[4.8598124, 2.99573227],
+										[0.69314718, 0.],
+										[0., 0.69314718],
+										[2.99573227, 3.13549422],
+										[2.30258509, 2.56494936],
+										[0., 0.],
+										[0., 2.77258872],
+										[0.69314718, 0.69314718],
+										[0., 0.69314718],
+										[6.18208491, 6.12468339],
+										[3.68887945, 4.20469262],
+										[0.69314718, 0.],
+										[5.43807931, 5.65599181],
+										[2.77258872, 3.13549422],
+										[3.55534806, 3.73766962],
+										[0., 0.69314718],
+										[5.13579844, 5.33753808],
+										[0.69314718, 0.],
+										[0., 0.69314718],
+										[0., 0.],
+										[1.38629436, 2.48490665],
+										[0., 1.09861229],
+										[1.94591015, 2.07944154],
+										[0.69314718, 0.69314718],
+										[1.94591015, 1.79175947],
+										[0., 2.48490665],
+										[0., 1.38629436],
+										[3.49650756, 3.29583687],
+										[1.09861229, 2.39789527],
+										[0., 0.],
+										[0., 2.7080502],
+										[0.69314718, 0.],
+										[0., 0.],
+										[0., 1.60943791],
+										[5.49306144, 5.72031178],
+										[2.99573227, 3.66356165],
+										[0., 0.69314718],
+										[5.34710753, 5.30330491],
+										[4.52178858, 4.02535169],
+										[3.76120012, 3.8286414],
+										[0.69314718, 0.],
+										[0., 2.89037176],
+										[0.69314718, 2.7080502],
+										[0., 1.38629436],
+										[4.70048037, 5.18178355],
+										[1.60943791, 2.48490665],
+										[2.83321334, 2.77258872],
+										[0.69314718, 1.09861229],
+										[0., 0.69314718],
+										[5.08759634, 5.28826703],
+										[3.49650756, 3.8286414],
+										[0.69314718, 2.07944154],
+										[5.66642669, 5.57972983],
+										[0., 2.7080502],
+										[0., 0.69314718],
+										[0., 0.],
+										[0.69314718, 1.60943791],
+										[1.94591015, 2.30258509],
+										[2.77258872, 3.36729583],
+										[0., 1.09861229],
+										[0., 0.69314718],
+										[4.40671925, 5.14166356],
+										[0.69314718, 0.],
+										[2.63905733, 2.89037176],
+										[5.86363118, 5.96870756],
+										[0.69314718, 0.69314718],
+										[0., 1.09861229],
+										[4.39444915, 4.97673374],
+										[0., 0.69314718],
+										[2.30258509, 2.19722458],
+										[0.69314718, 0.69314718],
+										[0., 0.],
+										[1.60943791, 3.33220451],
+										[0.69314718, 2.19722458],
+										[0.69314718, 1.60943791],
+										[1.60943791, 1.09861229],
+										[3.68887945, 3.36729583],
+										[0.69314718, 0.],
+										[1.09861229, 1.38629436],
+										[3.78418963, 3.93182563],
+										[6.73221071, 6.44254017],
+										[3.80666249, 1.09861229],
+										[7.76429601, 7.17242458],
+										[2.30258509, 2.07944154],
+										[1.09861229, 1.38629436],
+										[0.69314718, 1.38629436],
+										[4.9698133, 5.16478597],
+										[0., 0.69314718],
+										[2.94443898, 1.60943791],
+										[3.17805383, 2.77258872]
+										],
+										markArea: {
+											silent: true,
+											itemStyle: {
+												normal: {
+													color: 'transparent',
+													borderWidth: 1,
+													borderType: 'dashed'
+												}
+											},
+
+										}
+									},
+									{
+										name: '铜牌',
+										type: 'scatter',
+										data: [[0., 1.09861229],
+										[0., 0.],
+										[1.79175947, 2.19722458],
+										[3.04452244, 1.79175947],
+										[4.51085951, 4.52178858],
+										[1.09861229, 2.19722458],
+										[5.81711116, 6.20657593],
+										[3.09104245, 3.8501476],
+										[2.07944154, 3.25809654],
+										[2.7080502, 2.39789527],
+										[0., 0.69314718],
+										[0.69314718, 0.],
+										[4.54329478, 5.04342512],
+										[0., 0.69314718],
+										[2.94443898, 4.20469262],
+										[0., 1.94591015],
+										[0., 0.],
+										[4.7095302, 5.25749537],
+										[0.69314718, 0.69314718],
+										[3.98898405, 4.9698133],
+										[0., 1.79175947],
+										[5.07517382, 5.768321],
+										[1.38629436, 3.09104245],
+										[5.80814249, 5.55682806],
+										[0.69314718, 0.69314718],
+										[3.04452244, 1.09861229],
+										[1.79175947, 2.7080502],
+										[0.69314718, 1.09861229],
+										[3.98898405, 3.61091791],
+										[5.14166356, 4.79579055],
+										[0., 0.],
+										[2.77258872, 3.49650756],
+										[5.11198779, 5.170484],
+										[0., 0.69314718],
+										[1.38629436, 1.09861229],
+										[0.69314718, 0.],
+										[2.07944154, 2.7080502],
+										[0., 0.69314718],
+										[4.68213123, 4.90527478],
+										[2.30258509, 3.21887582],
+										[3.13549422, 3.09104245],
+										[4.2341065, 4.53259949],
+										[4.53259949, 4.20469262],
+										[2.63905733, 0.],
+										[4.82831374, 5.36597602],
+										[6.06145692, 6.25190388],
+										[4.9698133, 5.19849703],
+										[0., 0.],
+										[6.40687999, 6.3630281],
+										[5.79909265, 5.420535],
+										[2.19722458, 2.94443898],
+										[6.2126061, 6.29710932],
+										[0., 2.77258872],
+										[3.63758616, 4.02535169],
+										[0.69314718, 0.],
+										[0., 0.],
+										[0., 0.69314718],
+										[0., 2.07944154],
+										[0.69314718, 0.69314718],
+										[6.04025471, 5.88332239],
+										[2.48490665, 2.63905733],
+										[4.8598124, 3.68887945],
+										[0.69314718, 0.69314718],
+										[0., 1.09861229],
+										[2.99573227, 3.36729583],
+										[2.30258509, 2.56494936],
+										[0., 0.69314718],
+										[0., 1.09861229],
+										[0.69314718, 2.07944154],
+										[0., 0.],
+										[6.18208491, 6.0591232],
+										[3.68887945, 3.91202301],
+										[0.69314718, 0.],
+										[5.43807931, 5.82008293],
+										[2.77258872, 3.40119738],
+										[3.55534806, 3.4657359],
+										[0., 1.09861229],
+										[5.13579844, 5.18178355],
+										[0.69314718, 0.],
+										[0., 1.79175947],
+										[0., 1.09861229],
+										[1.38629436, 1.94591015],
+										[0., 1.09861229],
+										[1.94591015, 3.91202301],
+										[0.69314718, 0.],
+										[1.94591015, 2.56494936],
+										[0., 1.79175947],
+										[0., 1.60943791],
+										[3.49650756, 3.98898405],
+										[1.09861229, 2.7080502],
+										[0., 0.69314718],
+										[0., 0.],
+										[0.69314718, 0.69314718],
+										[0., 0.69314718],
+										[0., 0.],
+										[5.49306144, 5.86646806],
+										[2.99573227, 3.8286414],
+										[0., 0.69314718],
+										[5.34710753, 5.10594547],
+										[4.52178858, 4.39444915],
+										[3.76120012, 3.55534806],
+										[0.69314718, 1.09861229],
+										[0., 0.],
+										[0.69314718, 0.],
+										[0., 2.07944154],
+										[4.70048037, 5.48893773],
+										[1.60943791, 2.99573227],
+										[2.83321334, 3.55534806],
+										[0.69314718, 1.94591015],
+										[0., 1.60943791],
+										[5.08759634, 5.70378247],
+										[3.49650756, 3.95124372],
+										[0.69314718, 2.30258509],
+										[5.66642669, 5.78689738],
+										[0., 0.],
+										[0., 0.],
+										[0., 1.60943791],
+										[0.69314718, 0.],
+										[1.94591015, 2.77258872],
+										[2.77258872, 3.73766962],
+										[0., 0.],
+										[0., 0.],
+										[4.40671925, 4.94875989],
+										[0.69314718, 0.69314718],
+										[2.63905733, 2.56494936],
+										[5.86363118, 5.80513497],
+										[0.69314718, 0.69314718],
+										[0., 0.],
+										[4.39444915, 4.66343909],
+										[0., 0.],
+										[2.30258509, 2.7080502],
+										[0.69314718, 1.09861229],
+										[0., 0.69314718],
+										[1.60943791, 2.94443898],
+										[0.69314718, 2.48490665],
+										[0.69314718, 1.94591015],
+										[1.60943791, 2.07944154],
+										[3.68887945, 3.33220451],
+										[0.69314718, 0.69314718],
+										[1.09861229, 1.09861229],
+										[3.78418963, 4.56434819],
+										[6.73221071, 6.37161185],
+										[3.80666249, 3.4339872],
+										[7.76429601, 7.06390396],
+										[2.30258509, 2.89037176],
+										[1.09861229, 2.39789527],
+										[0.69314718, 0.],
+										[4.9698133, 4.77912349],
+										[0., 0.69314718],
+										[2.94443898, 0.69314718],
+										[3.17805383, 2.39789527]
+										],
+										markArea: {
+											silent: true,
+											itemStyle: {
+												normal: {
+													color: 'transparent',
+													borderWidth: 1,
+													borderType: 'dashed'
+												}
+											},
+										}
+									}
+
+								]
+							};
+
+
+							// 使用刚指定的配置项和数据显示图表。
+							myChart.setOption(option);
+						</script>
+						<script type="text/javascript">
+							// 基于准备好的dom，初始化echarts实例
+							var myChart = echarts.init(document.getElementById('scatter4'));
+
+							// 指定图表的配置项和数据
+							option = {
+								title: {
+									text: ''
+								},
+								grid: {
+									left: '8%',
+									right: '20%',
+									bottom: '3%',
+									containLabel: true
+								},
+								tooltip: {
+									// trigger: 'axis',
+									showDelay: 0,
+									formatter: function (params) {
+										{
+											return params.seriesName + ' :<br/>'
+												+ params.value[0] + ','
+												+ params.value[1];
+										}
+
+									},
+									axisPointer: {
+										show: true,
+										type: 'cross',
+										lineStyle: {
+											type: 'dashed',
+											width: 1
+										}
+									}
+								},
+
+								legend: {
+									data: ['金牌','银牌','铜牌'],
+									left: 'center'
+								},
+								xAxis: [
+									{
+										type: 'value',
+										name: '总得分（对数）',
+										nameGap: 16,
+										nameTextStyle: {
+											color: '#000000',
+											fontSize: 12
+										},
+
+										axisLabel: {
+											formatter: '{value} '
+										},
+										splitLine: {
+											show: false
+										}
+									}
+								],
+								yAxis: [
+									{
+										type: 'value',
+										name: '金/银/铜牌数（对数）',
+										nameLocation: 'end',
+										nameGap: 20,
+										nameTextStyle: {
+											color: '#000000',
+											fontSize: 12
+										},
+										scale: true,
+										axisLabel: {
+											formatter: '{value} '
+										},
+										splitLine: {
+											show: false
+										}
+									}
+								],
+								series: [
+									{
+										name: '金牌',
+										type: 'scatter',
+										data: [[1.09861229, 0.],
+										[1.09861229, 0.],
+										[3.55534806, 1.79175947],
+										[4.54329478, 3.04452244],
+										[6.48004456, 4.51085951],
+										[3.29583687, 1.09861229],
+										[7.90470391, 5.81711116],
+										[5.68017261, 3.09104245],
+										[4.35670883, 2.07944154],
+										[4.44265126, 2.7080502],
+										[0.69314718, 0.],
+										[1.94591015, 0.69314718],
+										[6.79905586, 4.54329478],
+										[0.69314718, 0.],
+										[5.3981627, 2.94443898],
+										[2.19722458, 0.],
+										[1.09861229, 0.],
+										[6.89972311, 4.7095302],
+										[2.07944154, 0.69314718],
+										[6.46769873, 3.98898405],
+										[1.79175947, 0.],
+										[7.26403014, 5.07517382],
+										[3.95124372, 1.38629436],
+										[7.71199651, 5.80814249],
+										[2.07944154, 0.69314718],
+										[4.44265126, 3.04452244],
+										[3.93182563, 1.79175947],
+										[2.19722458, 0.69314718],
+										[5.84932478, 3.98898405],
+										[6.96885038, 5.14166356],
+										[1.09861229, 0.],
+										[4.94875989, 2.77258872],
+										[7.13089883, 5.11198779],
+										[0.69314718, 0.],
+										[2.94443898, 1.38629436],
+										[1.94591015, 0.69314718],
+										[4.14313473, 2.07944154],
+										[0.69314718, 0.],
+										[6.96129605, 4.68213123],
+										[4.39444915, 2.30258509],
+										[4.86753445, 3.13549422],
+										[6.33682573, 4.2341065],
+										[6.33682573, 4.53259949],
+										[3.97029191, 2.63905733],
+										[6.85646198, 4.82831374],
+										[8.10741881, 6.06145692],
+										[6.99117689, 4.9698133],
+										[1.09861229, 0.],
+										[8.37655086, 6.40687999],
+										[7.6420444, 5.79909265],
+										[4.14313473, 2.19722458],
+										[8.1241506, 6.2126061],
+										[2.89037176, 0.],
+										[5.79909265, 3.63758616],
+										[1.94591015, 0.69314718],
+										[1.09861229, 0.],
+										[0.69314718, 0.],
+										[2.30258509, 0.],
+										[2.30258509, 0.69314718],
+										[7.89095672, 6.04025471],
+										[4.54329478, 2.48490665],
+										[6.38012254, 4.8598124],
+										[1.79175947, 0.69314718],
+										[1.60943791, 0.],
+										[5.00394631, 2.99573227],
+										[4.29045944, 2.30258509],
+										[0.69314718, 0.],
+										[3.49650756, 0.],
+										[2.63905733, 0.69314718],
+										[1.09861229, 0.],
+										[8.0931567, 6.18208491],
+										[5.8230459, 3.68887945],
+										[1.60943791, 0.69314718],
+										[7.50823877, 5.43807931],
+										[4.8978398, 2.77258872],
+										[5.52146092, 3.55534806],
+										[1.60943791, 0.],
+										[7.14519613, 5.13579844],
+										[1.60943791, 0.69314718],
+										[2.07944154, 0.],
+										[1.09861229, 0.],
+										[3.71357207, 1.38629436],
+										[1.94591015, 0.],
+										[4.47733681, 1.94591015],
+										[1.94591015, 0.69314718],
+										[3.8501476, 1.94591015],
+										[3.33220451, 0.],
+										[2.39789527, 0.],
+										[5.45532112, 3.49650756],
+										[3.76120012, 1.09861229],
+										[0.69314718, 0.],
+										[3.36729583, 0.],
+										[1.79175947, 0.69314718],
+										[0.69314718, 0.],
+										[2.19722458, 0.],
+										[7.56475701, 5.49306144],
+										[5.28826703, 2.99573227],
+										[1.38629436, 0.],
+										[7.24494155, 5.34710753],
+										[6.31896811, 4.52178858],
+										[5.68017261, 3.76120012],
+										[1.94591015, 0.69314718],
+										[3.55534806, 0.],
+										[3.49650756, 0.69314718],
+										[2.63905733, 0.],
+										[6.93925395, 4.70048037],
+										[4.06044301, 1.60943791],
+										[4.8598124, 2.83321334],
+										[2.7080502, 0.69314718],
+										[1.94591015, 0.],
+										[7.19893124, 5.08759634],
+										[5.59842196, 3.49650756],
+										[3.33220451, 0.69314718],
+										[7.60389797, 5.66642669],
+										[3.36729583, 0.],
+										[1.09861229, 0.],
+										[1.60943791, 0.],
+										[2.56494936, 0.69314718],
+										[4.06044301, 1.94591015],
+										[5.06259503, 2.77258872],
+										[1.60943791, 0.],
+										[1.09861229, 0.],
+										[6.69084228, 4.40671925],
+										[1.79175947, 0.69314718],
+										[4.59511985, 2.63905733],
+										[7.83042562, 5.86363118],
+										[2.07944154, 0.69314718],
+										[1.60943791, 0.],
+										[6.57088296, 4.39444915],
+										[1.09861229, 0.],
+										[4.20469262, 2.30258509],
+										[2.19722458, 0.69314718],
+										[0.69314718, 0.],
+										[4.48863637, 1.60943791],
+										[3.4657359, 0.69314718],
+										[2.94443898, 0.69314718],
+										[3.33220451, 1.60943791],
+										[5.48063892, 3.68887945],
+										[1.79175947, 0.69314718],
+										[2.83321334, 1.09861229],
+										[5.90808294, 3.78418963],
+										[8.55468164, 6.73221071],
+										[5.35185813, 3.80666249],
+										[9.48713843, 7.76429601],
+										[4.21950771, 2.30258509],
+										[3.21887582, 1.09861229],
+										[2.39789527, 0.69314718],
+										[6.94601399, 4.9698133],
+										[1.38629436, 0.],
+										[4.40671925, 2.94443898],
+										[4.89034913, 3.17805383]
+										],
+										markArea: {
+											silent: true,
+											itemStyle: {
+												normal: {
+													color: 'transparent',
+													borderWidth: 1,
+													borderType: 'dashed'
+												}
+											},
+
+										}
+									},
+									{
+										name: '银牌',
+										type: 'scatter',
+										data: [[1.09861229, 0.],
+										[1.09861229, 0.69314718],
+										[3.55534806, 1.38629436],
+										[4.54329478, 1.60943791],
+										[6.48004456, 4.61512052],
+										[3.29583687, 1.79175947],
+										[7.90470391, 6.08221891],
+										[5.68017261, 4.40671925],
+										[4.35670883, 2.56494936],
+										[4.44265126, 2.30258509],
+										[0.69314718, 0.],
+										[1.94591015, 0.69314718],
+										[6.79905586, 5.22574667],
+										[0.69314718, 0.],
+										[5.3981627, 3.73766962],
+										[2.19722458, 0.69314718],
+										[1.09861229, 0.69314718],
+										[6.89972311, 5.19849703],
+										[2.07944154, 0.69314718],
+										[6.46769873, 4.97673374],
+										[1.79175947, 0.],
+										[7.26403014, 5.46806014],
+										[3.95124372, 2.30258509],
+										[7.71199651, 5.78382518],
+										[2.07944154, 0.69314718],
+										[4.44265126, 0.69314718],
+										[3.93182563, 2.19722458],
+										[2.19722458, 0.69314718],
+										[5.84932478, 3.91202301],
+										[6.96885038, 4.88280192],
+										[1.09861229, 0.69314718],
+										[4.94875989, 3.21887582],
+										[7.13089883, 5.33753808],
+										[0.69314718, 0.],
+										[2.94443898, 1.09861229],
+										[1.94591015, 0.69314718],
+										[4.14313473, 2.39789527],
+										[0.69314718, 0.],
+										[6.96129605, 5.50938834],
+										[4.39444915, 2.39789527],
+										[4.86753445, 2.39789527],
+										[6.33682573, 4.61512052],
+										[6.33682573, 4.18965474],
+										[3.97029191, 0.],
+										[6.85646198, 4.79579055],
+										[8.10741881, 6.30078579],
+										[6.99117689, 5.12396398],
+										[1.09861229, 0.69314718],
+										[8.37655086, 6.51174533],
+										[7.6420444, 5.60580207],
+										[4.14313473, 1.94591015],
+										[8.1241506, 6.04263283],
+										[2.89037176, 0.69314718],
+										[5.79909265, 4.15888308],
+										[1.94591015, 0.69314718],
+										[1.09861229, 0.69314718],
+										[0.69314718, 0.],
+										[2.30258509, 0.69314718],
+										[2.30258509, 1.09861229],
+										[7.89095672, 5.768321],
+										[4.54329478, 2.94443898],
+										[6.38012254, 2.99573227],
+										[1.79175947, 0.],
+										[1.60943791, 0.69314718],
+										[5.00394631, 3.13549422],
+										[4.29045944, 2.56494936],
+										[0.69314718, 0.],
+										[3.49650756, 2.77258872],
+										[2.63905733, 0.69314718],
+										[1.09861229, 0.69314718],
+										[8.0931567, 6.12468339],
+										[5.8230459, 4.20469262],
+										[1.60943791, 0.],
+										[7.50823877, 5.65599181],
+										[4.8978398, 3.13549422],
+										[5.52146092, 3.73766962],
+										[1.60943791, 0.69314718],
+										[7.14519613, 5.33753808],
+										[1.60943791, 0.],
+										[2.07944154, 0.69314718],
+										[1.09861229, 0.],
+										[3.71357207, 2.48490665],
+										[1.94591015, 1.09861229],
+										[4.47733681, 2.07944154],
+										[1.94591015, 0.69314718],
+										[3.8501476, 1.79175947],
+										[3.33220451, 2.48490665],
+										[2.39789527, 1.38629436],
+										[5.45532112, 3.29583687],
+										[3.76120012, 2.39789527],
+										[0.69314718, 0.],
+										[3.36729583, 2.7080502],
+										[1.79175947, 0.],
+										[0.69314718, 0.],
+										[2.19722458, 1.60943791],
+										[7.56475701, 5.72031178],
+										[5.28826703, 3.66356165],
+										[1.38629436, 0.69314718],
+										[7.24494155, 5.30330491],
+										[6.31896811, 4.02535169],
+										[5.68017261, 3.8286414],
+										[1.94591015, 0.],
+										[3.55534806, 2.89037176],
+										[3.49650756, 2.7080502],
+										[2.63905733, 1.38629436],
+										[6.93925395, 5.18178355],
+										[4.06044301, 2.48490665],
+										[4.8598124, 2.77258872],
+										[2.7080502, 1.09861229],
+										[1.94591015, 0.69314718],
+										[7.19893124, 5.28826703],
+										[5.59842196, 3.8286414],
+										[3.33220451, 2.07944154],
+										[7.60389797, 5.57972983],
+										[3.36729583, 2.7080502],
+										[1.09861229, 0.69314718],
+										[1.60943791, 0.],
+										[2.56494936, 1.60943791],
+										[4.06044301, 2.30258509],
+										[5.06259503, 3.36729583],
+										[1.60943791, 1.09861229],
+										[1.09861229, 0.69314718],
+										[6.69084228, 5.14166356],
+										[1.79175947, 0.],
+										[4.59511985, 2.89037176],
+										[7.83042562, 5.96870756],
+										[2.07944154, 0.69314718],
+										[1.60943791, 1.09861229],
+										[6.57088296, 4.97673374],
+										[1.09861229, 0.69314718],
+										[4.20469262, 2.19722458],
+										[2.19722458, 0.69314718],
+										[0.69314718, 0.],
+										[4.48863637, 3.33220451],
+										[3.4657359, 2.19722458],
+										[2.94443898, 1.60943791],
+										[3.33220451, 1.09861229],
+										[5.48063892, 3.36729583],
+										[1.79175947, 0.],
+										[2.83321334, 1.38629436],
+										[5.90808294, 3.93182563],
+										[8.55468164, 6.44254017],
+										[5.35185813, 1.09861229],
+										[9.48713843, 7.17242458],
+										[4.21950771, 2.07944154],
+										[3.21887582, 1.38629436],
+										[2.39789527, 1.38629436],
+										[6.94601399, 5.16478597],
+										[1.38629436, 0.69314718],
+										[4.40671925, 1.60943791],
+										[4.89034913, 2.77258872]
+										],
+										markArea: {
+											silent: true,
+											itemStyle: {
+												normal: {
+													color: 'transparent',
+													borderWidth: 1,
+													borderType: 'dashed'
+												}
+											},
+										}
+									},
+									{
+										name: '铜牌',
+										type: 'scatter',
+										data: [[1.09861229, 1.09861229],
+										[1.09861229, 0.],
+										[3.55534806, 2.19722458],
+										[4.54329478, 1.79175947],
+										[6.48004456, 4.52178858],
+										[3.29583687, 2.19722458],
+										[7.90470391, 6.20657593],
+										[5.68017261, 3.8501476],
+										[4.35670883, 3.25809654],
+										[4.44265126, 2.39789527],
+										[0.69314718, 0.69314718],
+										[1.94591015, 0.],
+										[6.79905586, 5.04342512],
+										[0.69314718, 0.69314718],
+										[5.3981627, 4.20469262],
+										[2.19722458, 1.94591015],
+										[1.09861229, 0.],
+										[6.89972311, 5.25749537],
+										[2.07944154, 0.69314718],
+										[6.46769873, 4.9698133],
+										[1.79175947, 1.79175947],
+										[7.26403014, 5.768321],
+										[3.95124372, 3.09104245],
+										[7.71199651, 5.55682806],
+										[2.07944154, 0.69314718],
+										[4.44265126, 1.09861229],
+										[3.93182563, 2.7080502],
+										[2.19722458, 1.09861229],
+										[5.84932478, 3.61091791],
+										[6.96885038, 4.79579055],
+										[1.09861229, 0.],
+										[4.94875989, 3.49650756],
+										[7.13089883, 5.170484],
+										[0.69314718, 0.69314718],
+										[2.94443898, 1.09861229],
+										[1.94591015, 0.],
+										[4.14313473, 2.7080502],
+										[0.69314718, 0.69314718],
+										[6.96129605, 4.90527478],
+										[4.39444915, 3.21887582],
+										[4.86753445, 3.09104245],
+										[6.33682573, 4.53259949],
+										[6.33682573, 4.20469262],
+										[3.97029191, 0.],
+										[6.85646198, 5.36597602],
+										[8.10741881, 6.25190388],
+										[6.99117689, 5.19849703],
+										[1.09861229, 0.],
+										[8.37655086, 6.3630281],
+										[7.6420444, 5.420535],
+										[4.14313473, 2.94443898],
+										[8.1241506, 6.29710932],
+										[2.89037176, 2.77258872],
+										[5.79909265, 4.02535169],
+										[1.94591015, 0.],
+										[1.09861229, 0.],
+										[0.69314718, 0.69314718],
+										[2.30258509, 2.07944154],
+										[2.30258509, 0.69314718],
+										[7.89095672, 5.88332239],
+										[4.54329478, 2.63905733],
+										[6.38012254, 3.68887945],
+										[1.79175947, 0.69314718],
+										[1.60943791, 1.09861229],
+										[5.00394631, 3.36729583],
+										[4.29045944, 2.56494936],
+										[0.69314718, 0.69314718],
+										[3.49650756, 1.09861229],
+										[2.63905733, 2.07944154],
+										[1.09861229, 0.],
+										[8.0931567, 6.0591232],
+										[5.8230459, 3.91202301],
+										[1.60943791, 0.],
+										[7.50823877, 5.82008293],
+										[4.8978398, 3.40119738],
+										[5.52146092, 3.4657359],
+										[1.60943791, 1.09861229],
+										[7.14519613, 5.18178355],
+										[1.60943791, 0.],
+										[2.07944154, 1.79175947],
+										[1.09861229, 1.09861229],
+										[3.71357207, 1.94591015],
+										[1.94591015, 1.09861229],
+										[4.47733681, 3.91202301],
+										[1.94591015, 0.],
+										[3.8501476, 2.56494936],
+										[3.33220451, 1.79175947],
+										[2.39789527, 1.60943791],
+										[5.45532112, 3.98898405],
+										[3.76120012, 2.7080502],
+										[0.69314718, 0.69314718],
+										[3.36729583, 0.],
+										[1.79175947, 0.69314718],
+										[0.69314718, 0.69314718],
+										[2.19722458, 0.],
+										[7.56475701, 5.86646806],
+										[5.28826703, 3.8286414],
+										[1.38629436, 0.69314718],
+										[7.24494155, 5.10594547],
+										[6.31896811, 4.39444915],
+										[5.68017261, 3.55534806],
+										[1.94591015, 1.09861229],
+										[3.55534806, 0.],
+										[3.49650756, 0.],
+										[2.63905733, 2.07944154],
+										[6.93925395, 5.48893773],
+										[4.06044301, 2.99573227],
+										[4.8598124, 3.55534806],
+										[2.7080502, 1.94591015],
+										[1.94591015, 1.60943791],
+										[7.19893124, 5.70378247],
+										[5.59842196, 3.95124372],
+										[3.33220451, 2.30258509],
+										[7.60389797, 5.78689738],
+										[3.36729583, 0.],
+										[1.09861229, 0.],
+										[1.60943791, 1.60943791],
+										[2.56494936, 0.],
+										[4.06044301, 2.77258872],
+										[5.06259503, 3.73766962],
+										[1.60943791, 0.],
+										[1.09861229, 0.],
+										[6.69084228, 4.94875989],
+										[1.79175947, 0.69314718],
+										[4.59511985, 2.56494936],
+										[7.83042562, 5.80513497],
+										[2.07944154, 0.69314718],
+										[1.60943791, 0.],
+										[6.57088296, 4.66343909],
+										[1.09861229, 0.],
+										[4.20469262, 2.7080502],
+										[2.19722458, 1.09861229],
+										[0.69314718, 0.69314718],
+										[4.48863637, 2.94443898],
+										[3.4657359, 2.48490665],
+										[2.94443898, 1.94591015],
+										[3.33220451, 2.07944154],
+										[5.48063892, 3.33220451],
+										[1.79175947, 0.69314718],
+										[2.83321334, 1.09861229],
+										[5.90808294, 4.56434819],
+										[8.55468164, 6.37161185],
+										[5.35185813, 3.4339872],
+										[9.48713843, 7.06390396],
+										[4.21950771, 2.89037176],
+										[3.21887582, 2.39789527],
+										[2.39789527, 0.],
+										[6.94601399, 4.77912349],
+										[1.38629436, 0.69314718],
+										[4.40671925, 0.69314718],
+										[4.89034913, 2.39789527]
+										],
+										markArea: {
+											silent: true,
+											itemStyle: {
+												normal: {
+													color: 'transparent',
+													borderWidth: 1,
+													borderType: 'dashed'
+												}
+											},
+										}
+									}
+								]
+							};
+							// 使用刚指定的配置项和数据显示图表。
+							myChart.setOption(option);
+						</script>
+					</div>
+					<div style="text-align:center;line-height:25px;width:100%;margin:10px 0;">图11:各国金银铜牌数关系以及与总得分关系</div>
+					<div style="text-align:left;line-height:25px;width:100%;margin:10px 0;">上图横坐标x取金牌数量的对数即log金牌数量，同样纵坐标y取银牌、铜牌数的对数log银牌数量、log铜牌数量，于是如图可看出金牌数的对数与银牌、铜牌数的对数均基本满足一次函数的正相关关系。由此可得出，各国在奥运会所获银牌、铜牌数与其所获金牌数量之间均符合幂律关系。</div>
+
+					<div style="text-align:left;line-height:25px;width:100%;margin:10px 0;font-size:22px;">3、 线性回归模型定量分析人口&GDP与总得分</div>
+					<div style="text-align:left;line-height:25px;width:100%;margin:10px 0;font-size:18px;">1) ‘y ~ xg + xp’</div>
+					<div style="text-align:left;line-height:25px;width:100%;margin:10px 0;">将国家的奥运总得分记为y，自变量国家的GDP和人口分别记作xg和xp，用xg和xp来预测y，即有'y ~ xg + xp'，此函数模型，R平方为0.23，拟合度差，所以该模型不适合。</div>
+					<div style="text-align:left;line-height:25px;width:100%;margin:10px 0;">备注：在统计学中对变量进行线行回归分析，采用最小二乘法进行参数估计时，R平方为回归平方和与总离差平方和的比值，表示总离差平方和中可以由回归平方和解释的比例，这一比例越大越好，模型越精确，回归效果越显著。R平方介于0~1之间，越接近1，回归拟合效果越好，一般认为超过0.8的模型拟合优度比较高。</div>
+
+					<div style="text-align:left;line-height:25px;width:100%;margin:10px 0;font-size:18px;">2) 'y_log ~ xg_log + xp_log'</div>
+					<p style="text-align: center; "><img src="./图11.jpg" style="width: 100%; " /></p>
+					<div style="text-align:center;line-height:25px;width:100%;margin:10px 0;">图12:人口&GDP与总得分的幂律关系模型</div>
+					<div style="text-align:left;line-height:25px;width:100%;margin:10px 0;">该模型取用GDP的对数xg_log和人口的对数xp_log来预测国家奥运总得分的对数y_log，即有'y_log ~ xg_log + xp_log'，如图11里的后两幅图所示两个自变量GDP和人口与因变量呈明显的正相关关系，且两个变量都很显著。</div>
+					<div style="text-align:left;line-height:25px;width:100%;margin:10px 0;">对该模型的评估，算出R平方为0.614，即有61.4％的y（总分）能被该模型的预测变量所解释，依据上文提到的r平方的参考标准，该模型拟合度较好。两个自变量的系数（coef）分别为1.1233和0.7616，显示因变量和自变量呈正相关，得分y随着人口和gdp的增长而增长。再者看该模型的p值，p值指的是当原假设为真的时候样本观察结果出现极端结果的概率，t值等于系数除以标准误,t值和p>|t|均是看回归结果是否显著,p>|t|越小越显著,表明回归效果越好，此处p值对应0，表明回归结果显著，符合原假设模型。结合以上几点衡量，该模型合适。</div>
+
+
+				</div>
+				<div role="tabpanel" class="tab-pane" id="messages" style="padding-bottom: 15px;border-bottom: 2px solid gray;">
+					<div style="text-align:left;line-height:50px;width:100%;font-size:24px;">三、结论</div>
+
+					<div style="text-align:left;line-height:25px;width:100%;margin:10px 0;">综合上述分析，首先，被冠以“梦之队”的队伍们本身对于自身项目有很强的垄断趋势，这体现在奖牌数的获得和在某一固定时段内的持续优势。其次，除去熟知的梦之队项目，其他各单项也大多被某一国家或某几个国家所垄断，获奖国家间的获奖情况和实力差距悬殊。然而，不单单是奥运单项的垄断程度高，奥运会的总体成绩各国也很悬殊，并且从历届奥运会看来，整个奥运会也是几乎被以美国为首的几个国家所垄断着。</div>
+					<div style="text-align:left;line-height:25px;width:100%;margin:10px 0;">奥运会单项和总体的高度被垄断的情况与国家的人口和GDP有着直接关系，且是正相关的。在具体研究了奖牌数、总得分和人口、GDP的关系之后，通过建立各种函数模型，找到相对契合的人口、GDP对奥运成绩的正相关的幂律关系，证实了这两个因素对于奥运会垄断程度的影响。人口数量大且GDP高的国家，也就是人们所熟悉的当今国际舞台上的大国强国才是真正统治着奥运会，这同时体现出奥运的本质并不仅仅是运动，而是提供了一些大国强国进行国力角逐的舞台。</div>
+
+										<div style="text-align:left;line-height:40px;width:100%;margin:10px 0;font-size:16px;">(附：历届奥运会举办地)</div>
+
+										<script type="text/javascript" src="http://echarts.baidu.com/gallery/vendors/echarts/echarts-all-3.js"></script>
+										<script type="text/javascript" src="http://echarts.baidu.com/gallery/vendors/echarts/map/js/world.js"></script>
+										<script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak=ZUONbpqGBsYGXNIYHicvbAbM"></script>
+										<script type="text/javascript" src="http://echarts.baidu.com/gallery/vendors/echarts/map/js/china.js"></script>
+										<script type="text/javascript" src="http://echarts.baidu.com/gallery/vendors/echarts/extension/bmap.min.js"></script>
+										<script type="text/javascript" src="http://echarts.baidu.com/gallery/vendors/echarts/extension/dataTool.min.js"></script>
+
+										<!--scatter-->
+										<div id="scatter" style="width: 1000px;height:400px;"></div>
+
+										<script type="text/javascript">
+											// 基于准备好的dom，初始化echarts实例
+											var myChart = echarts.init(document.getElementById('scatter'));
+
+											// 指定图表的配置项和数据
+
+											var latlong = {};
+											latlong.AU = { 'latitude': -30, 'longitude': 140 };
+											latlong.AU2 = { 'latitude': -28, 'longitude': 135 };
+											latlong.BE = { 'latitude': 50.8333, 'longitude': 4 };
+											latlong.BR = { 'latitude': -10, 'longitude': -55 };
+											latlong.CA = { 'latitude': 54, 'longitude': -100 };
+											latlong.CN = { 'latitude': 35, 'longitude': 105 };
+											latlong.DE = { 'latitude': 51, 'longitude': 9 };
+											latlong.DE2 = { 'latitude': 51, 'longitude': 10 };
+											latlong.ES = { 'latitude': 40, 'longitude': -4 };
+											latlong.FI = { 'latitude': 62, 'longitude': 26 };
+											latlong.FR = { 'latitude': 46, 'longitude': 2 };
+											latlong.FR2 = { 'latitude': 46, 'longitude': 3 };
+											latlong.GB = { 'latitude': 54, 'longitude': -2 };
+											latlong.GB2 = { 'latitude': 54, 'longitude': -3 };
+											latlong.GB3 = { 'latitude': 55, 'longitude': -2 };
+											latlong.GR = { 'latitude': 39, 'longitude': 22 };
+											latlong.GR2 = { 'latitude': 39, 'longitude': 24 };
+											latlong.IT = { 'latitude': 42.8333, 'longitude': 12.8333 };
+											latlong.JP = { 'latitude': 36, 'longitude': 138 };
+											latlong.KR = { 'latitude': 37, 'longitude': 127.5 };
+											latlong.MX = { 'latitude': 23, 'longitude': -102 };
+											latlong.NL = { 'latitude': 52.5, 'longitude': 5.75 };
+											latlong.RU = { 'latitude': 60, 'longitude': 100 };
+											latlong.SE = { 'latitude': 62, 'longitude': 15 };
+											latlong.US = { 'latitude': 38, 'longitude': -90 };
+											latlong.US2 = { 'latitude': 38, 'longitude': -110 };
+											latlong.US3 = { 'latitude': 38, 'longitude': -110 };
+											latlong.US4 = { 'latitude': 34, 'longitude': -88 };
+
+
+											var mapData = [
+												{ 'code': 'AU', 'name': '1956年澳大利亚墨尔本', 'value': 16, 'color': '#8aabb0' },
+												{ 'code': 'AU2', 'name': '2000年澳大利亚悉尼', 'value': 27, 'color': '#8aabb0' },
+												{ 'code': 'BE', 'name': '1920年比利时安特卫普', 'value': 7, 'color': '#d8854f' },
+												{ 'code': 'BR', 'name': '2016年巴西里约热内卢', 'value': 31, 'color': '#86a965' },
+												{ 'code': 'CA', 'name': '1976年加拿大蒙特利尔', 'value': 21, 'color': '#a7a737' },
+												{ 'code': 'CN', 'name': '2008年中国北京', 'value': 29, 'color': '#eea638' },
+												{ 'code': 'FI', 'name': '1952年芬兰赫尔辛基', 'value': 15, 'color': '#d8854f' },
+												{ 'code': 'FR', 'name': '1900年法国巴黎', 'value': 2, 'color': '#d8854f' },
+												{ 'code': 'FR2', 'name': '1924年法国巴黎', 'value': 8, 'color': '#d8854f' },
+												{ 'code': 'DE', 'name': '1916年德国柏林', 'value': 11, 'color': '#d8854f' },
+												{ 'code': 'DE2', 'name': '1972年德国慕尼黑', 'value': 20, 'color': '#d8854f' },
+												{ 'code': 'GR', 'name': '1896年希腊雅典', 'value': 1, 'color': '#d8854f' },
+												{ 'code': 'GR2', 'name': '2004年希腊雅典', 'value': 28, 'color': '#d8854f' },
+												{ 'code': 'IT', 'name': '1960年意大利罗马', 'value': 17, 'color': '#d8854f' },
+												{ 'code': 'JP', 'name': '1964年日本东京', 'value': 18, 'color': '#eea638' },
+												{ 'code': 'KR', 'name': '1988年韩国汉城', 'value': 24, 'color': '#eea638' },
+												{ 'code': 'MX', 'name': '1968年墨西哥墨西哥城', 'value': 19, 'color': '#a7a737' },
+												{ 'code': 'NL', 'name': '1928年荷兰阿姆斯特丹', 'value': 9, 'color': '#d8854f' },
+												{ 'code': 'RU', 'name': '1980年苏联莫斯科', 'value': 22, 'color': '#d8854f' },
+												{ 'code': 'ES', 'name': '1992年西班牙巴塞罗那', 'value': 25, 'color': '#d8854f' },
+												{ 'code': 'SE', 'name': '1912年瑞典斯德歌尔摩', 'value': 5, 'color': '#d8854f' },
+												{ 'code': 'GB', 'name': '1908年英国伦敦', 'value': 4, 'color': '#d8854f' },
+												{ 'code': 'GB2', 'name': '1948年英国伦敦', 'value': 14, 'color': '#d8854f' },
+												{ 'code': 'GB3', 'name': '2012年英国伦敦', 'value': 30, 'color': '#d8854f' },
+												{ 'code': 'US', 'name': '1904年美国圣路易斯', 'value': 3, 'color': '#a7a737' },
+												{ 'code': 'US2', 'name': '1932年美国洛杉矶', 'value': 10, 'color': '#a7a737' },
+												{ 'code': 'US3', 'name': '1984年美国洛杉矶', 'value': 23, 'color': '#a7a737' },
+												{ 'code': 'US4', 'name': '1996年美国亚特兰大', 'value': 26, 'color': '#a7a737' }];
+
+											var max = -Infinity;
+											var min = Infinity;
+											mapData.forEach(function (itemOpt) {
+												if (itemOpt.value > max) {
+													max = itemOpt.value;
+												}
+												if (itemOpt.value < min) {
+													min = itemOpt.value;
+												}
+											});
+
+											option = {
+												backgroundColor: '#404a59',
+												title: {
+													text: '历届奥运会举办国家',
+													left: 'center',
+													top: 'top',
+													textStyle: {
+														color: '#fff'
+													}
+												},
+												tooltip: {
+													trigger: 'item',
+													confine:true,
+													extraCssText:'width:220px!important;',
+													formatter: function (params) {
+														var value = (params.value + '').split('届奥运会');
+														value = value[0].replace('$1,')
+															+ '届奥运会';
+														return params.seriesName + '<br/>' + params.name + ' : ' + '<br/>' + value;
+													}
+												},
+												visualMap: {
+													show: false,
+													min: 0,
+													max: max,
+													inRange: {
+														symbolSize: [10, 10]
+													}
+												},
+												geo: {
+													name: '历届奥运会举办国家',
+													type: 'map',
+													map: 'world',
+													roam: false,
+													label: {
+														emphasis: {
+															show: false
+														}
+													},
+													itemStyle: {
+														normal: {
+															areaColor: '#323c48',
+															borderColor: '#111'
+														},
+														emphasis: {
+															areaColor: '#2a333d'
+														}
+													}
+												},
+												series: [
+													{
+														type: 'scatter',
+														coordinateSystem: 'geo',
+														data: mapData.map(function (itemOpt) {
+															return {
+																name: itemOpt.name,
+																value: [
+																	latlong[itemOpt.code].longitude,
+																	latlong[itemOpt.code].latitude,
+																	'第',
+																	itemOpt.value,
+																],
+																label: {
+																	emphasis: {
+																		position: 'right',
+																		show: false
+																	}
+																},
+																itemStyle: {
+																	normal: {
+																		color: itemOpt.color
+																	}
+																}
+															};
+														})
+													}
+												]
+											};
+
+											// 使用刚指定的配置项和数据显示图表。
+											myChart.setOption(option);
+										</script>
+									</div>
+								</div>
+
+							</div>
+							<script>
+										$('#myTabs a').click(function (e) {
+											e.preventDefault()
+											$(this).tab('show')
+										})
+							</script>
+
+		<div style="text-align:right;line-height:25px;width:100%;margin:10px 0;font-size:16px;">数据来源：</div>
+		<div style="text-align:right;line-height:25px;width:100%;margin:10px 0;font-size:16px;">奥林匹克官网：https://www.olympic.org</div>
+		<div style="text-align:right;line-height:25px;width:100%;margin:10px 0;font-size:16px;">Kaggle网：https://www.kaggle.com</div>
+		<div style="text-align:right;line-height:25px;width:100%;margin:10px 0;font-size:16px;">参考文献：</div>
+		<div style="text-align:right;line-height:25px;width:100%;margin:10px 0;font-size:16px;">《我国与奥运强国竞技体育实力的比较研究》</div>
+		<div style="text-align:right;line-height:25px;width:100%;margin:10px 0;font-size:16px;">《竞争平衡视域下世界乒乓球运动发展研究》</div>
+		<div style="text-align:right;line-height:25px;width:100%;margin:10px 0;font-size:16px;">《奥运10强国等级项目群特征研究》</div>
+		<div style="text-align:right;line-height:25px;width:100%;margin:10px 0;font-size:16px;">指导老师：王成军</div>
+		<div style="text-align:right;line-height:25px;width:100%;margin:10px 0;font-size:16px;">制作：2013级本科新闻班 沈越</div>
+
+
+
+</body>
+
+</html>
