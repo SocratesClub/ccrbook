@@ -7,7 +7,7 @@
 - 装帧: 平装
 - ISBN: 9787303241200
 
-欢迎在[https://github.com/computational-class/ccrbook/issues/](https://github.com/computational-class/ccrbook/issues/) 提出关于本书的任何问题，我们将尽快勘误，并在未来推出修订版时一并订正.非常感谢！。
+欢迎在[https://github.com/computational-class/ccrbook/issues/](https://github.com/computational-class/ccrbook/issues/) 提出关于本书的任何问题，我们将尽快勘误，并在未来推出修订版时一并订正。非常感谢！
 
 
 
