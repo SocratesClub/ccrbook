@@ -11,7 +11,7 @@ layout: default
 - 装帧: 平装
 - ISBN: 9787303241200
 
-> 欢迎在在 [https://github.com/computational-class/ccrbook/issues/](https://github.com/computational-class/ccrbook/issues/) 提出关于本书的任何问题，非常感谢！我们将尽快勘误。
+> 欢迎在[https://github.com/computational-class/ccrbook/issues/](https://github.com/computational-class/ccrbook/issues/) 提出关于本书的任何问题，非常感谢！我们将尽快勘误。
 
 ---
 
@@ -39,4 +39,4 @@ dog=[0,0,0,1]
 ---
 ---
 
-欢迎在在 [https://github.com/computational-class/ccrbook/issues/](https://github.com/computational-class/ccrbook/issues/) 提出关于本书的任何问题，非常感谢！我们将尽快勘误，在未来推出修订版时一并订正。
+欢迎在[https://github.com/computational-class/ccrbook/issues/](https://github.com/computational-class/ccrbook/issues/) 提出关于本书的任何问题，非常感谢！我们将尽快勘误，在未来推出修订版时一并订正。
