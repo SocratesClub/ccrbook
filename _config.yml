@@ -2,3 +2,4 @@ theme: jekyll-theme-minimal
 title: "《计算传播学导论》"
 description: "寻找人类传播行为的基因"
 logo: "./preface.png"
+show_downloads: "true" 
