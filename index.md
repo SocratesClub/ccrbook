@@ -1,3 +1,7 @@
+---
+layout: defaults
+---
+
 # 《计算传播学导论》勘误表
 
 ![](./preface.png)
