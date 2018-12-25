@@ -1,5 +1,5 @@
 ---
-layout: defaults
+layout: default
 ---
 
 # 《计算传播学导论》勘误表
