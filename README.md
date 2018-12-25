@@ -12,7 +12,7 @@
 
 本项目文件包括：
 1. python代码
-2. ppt文件
+2. PPT文件
 3. 勘误信息
 
 **本书勘误信息**：[https://computational-class.github.io/ccrbook/](https://computational-class.github.io/ccrbook/)
