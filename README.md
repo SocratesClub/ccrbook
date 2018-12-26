@@ -15,6 +15,8 @@
 2. PPT文件
 3. 勘误信息
 
+# 勘误
+
 **本书勘误信息**：[https://computational-class.github.io/ccrbook/](https://computational-class.github.io/ccrbook/)
 
 > 欢迎在 [https://github.com/computational-class/ccrbook/issues/](https://github.com/computational-class/ccrbook/issues/) 讨论本书内容或提出关于本书的任何问题，非常感谢！对于所提出的问题，我们将尽快勘误，并在未来推出修订版时一并订正。
@@ -83,3 +85,15 @@
   - 第六节
   - 本章小结 234
 - 后记 寻找人类传播行为的基因
+
+# 相关图书
+**《社交网络上的计算传播学》** 本书的姊妹篇是在2015年出版的《社交网络上的计算传播学》一书，后者从概念、模型、理论的角度对计算传播学在社交网络方面的应用进行了一个综合的介绍。
+
+本书的Github项目地址见：[https://github.com/computational-class/ccsnbook](https://github.com/computational-class/ccsnbook
+)
+
+# 相关课程
+
+- [《数据科学Python编程基础》](https://github.com/computational-class/datascience2018)
+- [《计算新闻传播学》](https://github.com/computational-class/cjc)
+- [《数据新闻》](https://github.com/data-journalism/dj2017)
